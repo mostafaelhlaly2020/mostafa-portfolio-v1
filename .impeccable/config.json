@@ -1,0 +1,7 @@
+{
+  "ignores": {
+    "values": {
+      "overused-font": ["Cairo", "The Year of the Camel"]
+    }
+  }
+}
