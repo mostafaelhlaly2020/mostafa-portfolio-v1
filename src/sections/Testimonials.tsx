@@ -61,20 +61,21 @@ export default function Testimonials() {
     return () => observer.disconnect()
   }, [])
 
-  // Auto-play
-  useEffect(() => {
-    const timer = setInterval(() => {
-      goTo((current + 1) % testimonials.length)
-    }, 5000)
-    return () => clearInterval(timer)
-  }, [current])
-
   const goTo = (index: number) => {
     if (isAnimating || index === current) return
     setIsAnimating(true)
     setCurrent(index)
     setTimeout(() => setIsAnimating(false), 500)
   }
+
+  // Auto-play
+  useEffect(() => {
+    const timer = setInterval(() => {
+      goTo((current + 1) % testimonials.length)
+    }, 5000)
+    return () => clearInterval(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current])
 
   const next = () => goTo((current + 1) % testimonials.length)
   const prev = () =>

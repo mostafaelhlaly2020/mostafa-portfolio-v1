@@ -5,11 +5,10 @@
 [![Vite](https://img.shields.io/badge/build-Vite_7-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
 [![Tailwind CSS](https://img.shields.io/badge/styling-Tailwind_CSS_3-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 [![GSAP](https://img.shields.io/badge/animations-GSAP-88CE02?logo=greensock&logoColor=white)](https://gsap.com/)
-[![PocketBase](https://img.shields.io/badge/backend-PocketBase-B8DBE4?logo=pocketbase&logoColor=white)](https://pocketbase.io/)
 
 A cinematic portfolio website for **Mostafa El-Sayed** — digital marketing expert and real estate consultant.
 
-**Live site:** `https://mostafa-elsayed.site`  
+**Target site:** `https://mostafa-elsayed.site` (planned — not yet deployed)  
 **Status:** In development — Phase 0 (Baseline & Tooling)
 
 ---
@@ -30,13 +29,13 @@ The **Admin Panel / CMS** is explicitly **future scope**. It will be built as a 
 | **Build Tool**         | Vite 7.x                                                                   |
 | **Styling**            | Tailwind CSS 3.x (dark mode only), shadcn/ui component library             |
 | **Animation**          | GSAP + ScrollTrigger (scroll-driven), Framer Motion (UI state), SplitType  |
-| **Routing**            | React Router v6 (client-side)                                              |
+| **Routing**            | React Router v7 (client-side)                                              |
 | **Validation**         | Zod                                                                         |
 | **Code Quality**       | ESLint + Prettier + Husky pre-commit hooks                                 |
 | **Quality Gate**       | Impeccable                                                                  |
 | **Backend**            | PocketBase (future — contact form + admin UI)                              |
-| **Hosting**            | Hostinger Business Plan (Node.js Apps)                                     |
-| **DNS**                | Cloudflare                                                                 |
+| **Hosting**            | Hostinger Business Plan (planned — not yet configured)                     |
+| **DNS**                | Cloudflare (planned — not yet configured)                                  |
 
 ---
 
@@ -55,7 +54,7 @@ The **Admin Panel / CMS** is explicitly **future scope**. It will be built as a 
 
 | Phase | Title                                     | Status       |
 | ----- | ----------------------------------------- | ------------ |
-| 0     | Baseline, Branch, Tooling, Lint Gate      | ✅ Complete  |
+| 0     | Baseline, Branch, Tooling, Lint Gate      | 🔧 In Progress  |
 | 1     | Data Layer, Types, Content Contracts      | ⬜ Pending   |
 | 2     | App Shell, Routing, Layout                | ⬜ Pending   |
 | 3     | Global UX Layer                           | ⬜ Pending   |
@@ -108,26 +107,25 @@ npm run lint
 npx impeccable detect src/
 ```
 
-Pre-commit hooks (Husky) automatically run lint + impeccable on `git commit`.
+Pre-commit hooks (Husky) automatically run `npx impeccable detect src/` on `git commit`.
 
 ---
 
-## Project Structure
+## Project Structure (Current — Phase 0)
 
 ```
 mostafa-portfolio-v1/
 ├── .husky/                 # Git hooks
 ├── .impeccable/            # Impeccable quality gate config
 ├── .agents/                # Hermes agent skills
-├── public/                 # Static assets (fonts, images, CV)
-│   ├── fonts/              # Custom fonts (The Year of the Camel)
-│   └── cv/                 # Resume PDF
-├── references/             # Reference repositories
+├── public/                 # Static assets
+│   └── fonts/              # Custom fonts (The Year of the Camel)
+├── references/
 │   └── cinematic-components/  # Cinematic HTML modules (reference only)
 ├── src/
 │   ├── components/ui/      # shadcn/ui atomic components
 │   ├── hooks/              # Custom React hooks
-│   ├── lib/                # Utilities and API clients
+│   ├── lib/                # Utilities
 │   ├── pages/              # Route-level components
 │   ├── sections/           # Page sections (Hero, About, Skills, etc.)
 │   ├── App.tsx             # Root component
@@ -150,6 +148,8 @@ mostafa-portfolio-v1/
 ├── tsconfig.node.json
 └── vite.config.ts
 ```
+
+> **Note:** `src/data/`, `src/components/animations/`, `src/types/`, and `src/styles/` are **planned** for Phase 1+ and do not exist yet.
 
 ---
 

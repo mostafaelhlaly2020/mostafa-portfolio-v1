@@ -20,4 +20,11 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    // shadcn/ui boilerplate exports toggle functions + components together
+    files: ['**/components/ui/*.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ])
