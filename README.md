@@ -15,7 +15,7 @@ A cinematic portfolio website for **Mostafa El-Sayed** — digital marketing exp
 
 ## Current Scope
 
-This repository contains the **Public Portfolio Frontend** — a bilingual (Arabic/English), dark-mode, cinematic single-page application. Every piece of content is data-driven (loaded from structured JSON files), making the frontend purely a presentation layer.
+This repository contains the **Public Portfolio Frontend** — a planned bilingual (Arabic/English), dark-mode, cinematic single-page application. Content is designed to be data-driven (loaded from structured JSON files planned for Phase 1), making the frontend purely a presentation layer. Currently (Phase 0), sections use inline sample data.
 
 The **Admin Panel / CMS** is explicitly **future scope**. It will be built as a separate Next.js application and is not implemented in this repository.
 
@@ -39,7 +39,9 @@ The **Admin Panel / CMS** is explicitly **future scope**. It will be built as a 
 
 ---
 
-## Architecture Principles
+## Architecture Principles (Target — Phase 1+)
+
+These describe the **planned** architecture that Phase 1+ will implement:
 
 1. **Data-Driven** — Zero hardcoded text in JSX. All content lives in `src/data/*.json`.
 2. **Separation of Concerns** — Content, presentation, and animation layers are independent.
