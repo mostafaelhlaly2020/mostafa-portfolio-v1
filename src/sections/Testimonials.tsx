@@ -1,37 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
-
-const testimonials = [
-  {
-    text: 'مصطفى من أفضل الناس اللي اشتغلت معاها في التسويق العقاري. شغله احترافي والنتائج بتتكلم عن نفسها. الحملات الإعلانية اللي عملها جابت نتائج ممتازة وبيعت وحدات في وقت قياسي.',
-    name: 'علي عمران',
-    role: 'الرئيس التنفيذي - شركة العمران للاستثمار العقاري',
-    initial: 'ع',
-  },
-  {
-    text: 'الشغل مع مصطفى كان تجربة ممتازة. فاهم جداً في التسويق الرقمي وبيعرف يوصل للجمهور المستهدف بكفاءة. الحملات على TikTok وInstagram كانت ناجحة جداً لمقهى كفة.',
-    name: 'محمد أحمد',
-    role: 'صاحب كفة كافيه - أسيوط',
-    initial: 'م',
-  },
-  {
-    text: 'مصطفى ساعدنا في إعادة بناء علامتنا التجارية في السوق السعودي. الاستراتيجية التسويقية كانت ممتازة والنتائج فاقت التوقعات. بنصح أي حد يشتغل معاه.',
-    name: 'فهد السبيعي',
-    role: 'مدير التسويق - بهجة الدار - الرياض',
-    initial: 'ف',
-  },
-]
-
-const companies = [
-  'RE/MAX',
-  'Chubb',
-  'WE',
-  'VIVO',
-  'Kayan',
-  'Coursera',
-  'Udemy',
-  'Almentor',
-]
+import { testimonials } from '@/lib/data'
 
 export default function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -71,15 +40,15 @@ export default function Testimonials() {
   // Auto-play
   useEffect(() => {
     const timer = setInterval(() => {
-      goTo((current + 1) % testimonials.length)
+      goTo((current + 1) % testimonials.items.length)
     }, 5000)
     return () => clearInterval(timer)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current])
 
-  const next = () => goTo((current + 1) % testimonials.length)
+  const next = () => goTo((current + 1) % testimonials.items.length)
   const prev = () =>
-    goTo((current - 1 + testimonials.length) % testimonials.length)
+    goTo((current - 1 + testimonials.items.length) % testimonials.items.length)
 
   return (
     <section
@@ -91,19 +60,19 @@ export default function Testimonials() {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="reveal inline-block text-sm text-[#6B6B6B] mb-4 font-medium">
-            آراء العملاء
+            {testimonials.label.ar}
           </span>
           <h2
             className="reveal text-3xl md:text-4xl lg:text-5xl font-bold text-[#1A1A1A] leading-tight"
             style={{ transitionDelay: '0.15s' }}
           >
-            ماذا يقول <span className="text-[#C4A265]">عملائي</span>
+            {testimonials.heading.ar} <span className="text-[#C4A265]">{testimonials.highlight.ar}</span>
           </h2>
           <p
             className="reveal mt-4 text-base md:text-lg text-[#6B6B6B] max-w-2xl mx-auto"
             style={{ transitionDelay: '0.3s' }}
           >
-            شهادات من شركاء وعملاء عملت معهم على مدار السنوات
+            {testimonials.subtitle.ar}
           </p>
         </div>
 
@@ -127,7 +96,7 @@ export default function Testimonials() {
                   animation: 'fadeIn 0.5s ease-in-out',
                 }}
               >
-                {testimonials[current].text}
+                {testimonials.items[current].text.ar}
               </p>
             </div>
 
@@ -137,14 +106,14 @@ export default function Testimonials() {
                 className="w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg"
                 style={{ backgroundColor: '#C4A265' }}
               >
-                {testimonials[current].initial}
+                {testimonials.items[current].name.ar.charAt(0)}
               </div>
               <div>
                 <h4 className="font-semibold text-[#1A1A1A]">
-                  {testimonials[current].name}
+                  {testimonials.items[current].name.ar}
                 </h4>
                 <p className="text-sm text-[#6B6B6B]">
-                  {testimonials[current].role}
+                  {testimonials.items[current].role.ar}
                 </p>
               </div>
             </div>
@@ -163,7 +132,7 @@ export default function Testimonials() {
 
             {/* Dots */}
             <div className="flex items-center gap-2 mx-4">
-              {testimonials.map((_, i) => (
+              {testimonials.items.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => goTo(i)}
@@ -192,7 +161,7 @@ export default function Testimonials() {
       {/* Company Marquee */}
       <div className="mt-20 overflow-hidden">
         <div className="marquee-track">
-          {[...companies, ...companies].map((company, i) => (
+          {[...testimonials.companies, ...testimonials.companies].map((company, i) => (
             <div
               key={i}
               className="flex items-center justify-center mx-8 md:mx-12"

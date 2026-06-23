@@ -1,32 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Phone, Mail, MapPin, Globe } from 'lucide-react'
-
-const contactInfo = [
-  {
-    icon: Phone,
-    label: 'الهاتف / واتساب',
-    value: '+20 111 883 9776',
-    href: 'tel:+201118839776',
-  },
-  {
-    icon: Mail,
-    label: 'البريد الإلكتروني',
-    value: 'mostafa.elhlaly2020@gmail.com',
-    href: 'mailto:mostafa.elhlaly2020@gmail.com',
-  },
-  {
-    icon: MapPin,
-    label: 'الموقع',
-    value: 'أسيوط، مصر',
-    href: '#',
-  },
-  {
-    icon: Globe,
-    label: 'الموقع الإلكتروني',
-    value: 'portfolio.mostafa-elsayed.site',
-    href: 'https://portfolio.mostafa-elsayed.site',
-  },
-]
+import { contact, iconMap } from '@/lib/data'
 
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -80,19 +53,19 @@ export default function Contact() {
         {/* Header */}
         <div className="text-center mb-16">
           <span className="reveal-right inline-block text-sm text-[#6B6B6B] mb-4 font-medium">
-            تواصل معي
+            {contact.label.ar}
           </span>
           <h2
             className="reveal-right text-3xl md:text-4xl lg:text-5xl font-bold text-[#1A1A1A] leading-tight"
             style={{ transitionDelay: '0.15s' }}
           >
-            لنبدأ <span className="text-[#C4A265]">مشروعك</span>
+            {contact.heading.ar} <span className="text-[#C4A265]">{contact.highlight.ar}</span>
           </h2>
           <p
             className="reveal-right mt-4 text-base md:text-lg text-[#6B6B6B] max-w-2xl mx-auto"
             style={{ transitionDelay: '0.3s' }}
           >
-            جاهز لتحويل أفكارك إلى نتائج ملموسة. تواصل معي الآن
+            {contact.subtitle.ar}
           </p>
         </div>
 
@@ -127,26 +100,26 @@ export default function Contact() {
                   </svg>
                 </div>
                 <h3 className="text-xl font-bold text-[#1A1A1A] mb-2">
-                  تم الإرسال بنجاح!
+                  {contact.successTitle.ar}
                 </h3>
                 <p className="text-[#6B6B6B]">
-                  شكراً لتواصلك! سأرد عليك في أقرب وقت.
+                  {contact.successMessage.ar}
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                   <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
-                    الاسم
+                    {contact.formFields[0].label.ar}
                   </label>
                   <input
-                    type="text"
-                    required
+                    type={contact.formFields[0].type}
+                    required={contact.formFields[0].required}
                     value={formData.name}
                     onChange={(e) =>
                       setFormData({ ...formData, name: e.target.value })
                     }
-                    placeholder="اكتب اسمك"
+                    placeholder={contact.formFields[0].placeholder.ar}
                     className="w-full px-4 py-3.5 rounded-lg text-[#1A1A1A] placeholder-[#6B6B6B] outline-none transition-all duration-300 focus:ring-2"
                     style={{
                       backgroundColor: '#F5F0EB',
@@ -167,16 +140,16 @@ export default function Contact() {
 
                 <div>
                   <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
-                    البريد الإلكتروني
+                    {contact.formFields[1].label.ar}
                   </label>
                   <input
-                    type="email"
-                    required
+                    type={contact.formFields[1].type}
+                    required={contact.formFields[1].required}
                     value={formData.email}
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                    placeholder="example@email.com"
+                    placeholder={contact.formFields[1].placeholder.ar}
                     className="w-full px-4 py-3.5 rounded-lg text-[#1A1A1A] placeholder-[#6B6B6B] outline-none transition-all duration-300 focus:ring-2"
                     style={{
                       backgroundColor: '#F5F0EB',
@@ -197,16 +170,16 @@ export default function Contact() {
 
                 <div>
                   <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
-                    الموضوع
+                    {contact.formFields[2].label.ar}
                   </label>
                   <input
-                    type="text"
-                    required
+                    type={contact.formFields[2].type}
+                    required={contact.formFields[2].required}
                     value={formData.subject}
                     onChange={(e) =>
                       setFormData({ ...formData, subject: e.target.value })
                     }
-                    placeholder="موضوع الرسالة"
+                    placeholder={contact.formFields[2].placeholder.ar}
                     className="w-full px-4 py-3.5 rounded-lg text-[#1A1A1A] placeholder-[#6B6B6B] outline-none transition-all duration-300 focus:ring-2"
                     style={{
                       backgroundColor: '#F5F0EB',
@@ -227,16 +200,16 @@ export default function Contact() {
 
                 <div>
                   <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
-                    الرسالة
+                    {contact.formFields[3].label.ar}
                   </label>
                   <textarea
-                    required
+                    required={contact.formFields[3].required}
                     rows={4}
                     value={formData.message}
                     onChange={(e) =>
                       setFormData({ ...formData, message: e.target.value })
                     }
-                    placeholder="اكتب رسالتك هنا..."
+                    placeholder={contact.formFields[3].placeholder.ar}
                     className="w-full px-4 py-3.5 rounded-lg text-[#1A1A1A] placeholder-[#6B6B6B] outline-none transition-all duration-300 focus:ring-2 resize-none"
                     style={{
                       backgroundColor: '#F5F0EB',
@@ -266,7 +239,7 @@ export default function Contact() {
                     e.currentTarget.style.backgroundColor = '#2D2D2D'
                   }}
                 >
-                  إرسال الرسالة
+                  {contact.submitButton.ar}
                 </button>
               </form>
             )}
@@ -278,12 +251,12 @@ export default function Contact() {
               className="reveal-left text-2xl font-bold text-[#1A1A1A] mb-8"
               style={{ transitionDelay: '0.45s' }}
             >
-              معلومات التواصل
+              {contact.infoLabel.ar}
             </h3>
 
             <div className="space-y-4">
-              {contactInfo.map((item, index) => {
-                const Icon = item.icon
+              {contact.methods.map((item, index) => {
+                const Icon = iconMap[item.icon]
                 return (
                   <a
                     key={index}
@@ -312,10 +285,10 @@ export default function Contact() {
                     </div>
                     <div>
                       <p className="text-xs text-[#6B6B6B] mb-0.5">
-                        {item.label}
+                        {item.label.ar}
                       </p>
                       <p className="text-sm font-medium text-[#1A1A1A]">
-                        {item.value}
+                        {typeof item.value === 'string' ? item.value : item.value.ar}
                       </p>
                     </div>
                   </a>

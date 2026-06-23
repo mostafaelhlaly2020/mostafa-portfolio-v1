@@ -1,21 +1,5 @@
 import { ArrowUpLeft } from 'lucide-react'
-
-const quickLinks = [
-  { label: 'من أنا', href: '#about' },
-  { label: 'المهارات', href: '#skills' },
-  { label: 'الخبرات', href: '#experience' },
-  { label: 'الشهادات', href: '#certifications' },
-  { label: 'آراء العملاء', href: '#testimonials' },
-  { label: 'التواصل', href: '#contact' },
-]
-
-const socialLinks = [
-  { label: 'Facebook', href: '#' },
-  { label: 'Instagram', href: '#' },
-  { label: 'LinkedIn', href: '#' },
-  { label: 'TikTok', href: '#' },
-  { label: 'WhatsApp', href: 'https://wa.me/201118839776' },
-]
+import { site } from '@/lib/data'
 
 export default function Footer() {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -42,7 +26,7 @@ export default function Footer() {
               مصطفى السيد
             </h3>
             <p style={{ color: 'rgba(240, 237, 232, 0.6)' }}>
-              خبير تسويق رقمي | استشارات عقارية
+              {site.tagline.ar}
             </p>
           </div>
 
@@ -55,7 +39,7 @@ export default function Footer() {
               روابط سريعة
             </h4>
             <ul className="space-y-3">
-              {quickLinks.map((link) => (
+              {site.quickLinks.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
@@ -63,7 +47,7 @@ export default function Footer() {
                     className="transition-colors duration-300 hover:text-[#C4A265]"
                     style={{ color: 'rgba(240, 237, 232, 0.7)' }}
                   >
-                    {link.label}
+                    {link.label.ar}
                   </a>
                 </li>
               ))}
@@ -79,13 +63,13 @@ export default function Footer() {
               تابعني
             </h4>
             <ul className="space-y-3">
-              {socialLinks.map((link) => (
-                <li key={link.label}>
+              {site.socialLinks.map((link) => (
+                <li key={link.platform}>
                   <a
-                    href={link.href}
-                    target={link.href.startsWith('http') ? '_blank' : undefined}
+                    href={link.url}
+                    target={link.url.startsWith('http') ? '_blank' : undefined}
                     rel={
-                      link.href.startsWith('http')
+                      link.url.startsWith('http')
                         ? 'noopener noreferrer'
                         : undefined
                     }
@@ -119,7 +103,7 @@ export default function Footer() {
             className="text-sm"
             style={{ color: 'rgba(240, 237, 232, 0.4)' }}
           >
-            صُنع بشغف في مصر
+            {site.madeWith.ar}
           </p>
         </div>
       </div>
