@@ -1,57 +1,5 @@
 import { useEffect, useRef } from 'react'
-import {
-  TrendingUp,
-  Target,
-  PenTool,
-  Building2,
-  ShoppingCart,
-  Users,
-} from 'lucide-react'
-
-const skills = [
-  {
-    icon: TrendingUp,
-    title: 'التسويق الرقمي',
-    description:
-      'تطوير استراتيجيات تسويقية شاملة تشمل جميع القنوات الرقمية مع التركيز على تحقيق أعلى عائد استثمار.',
-    tags: ['SEO', 'Content Marketing', 'Email Marketing'],
-  },
-  {
-    icon: Target,
-    title: 'الإعلانات المدفوعة',
-    description:
-      'إدارة حملات إعلانية مربحة على Meta Ads وTikTok Ads وGoogle Ads مع تحسين مستمر للأداء.',
-    tags: ['Meta Ads', 'TikTok Ads', 'Google Ads'],
-  },
-  {
-    icon: PenTool,
-    title: 'إنشاء المحتوى',
-    description:
-      'كتابة محتوى إبداعي مقنع وإدارة حسابات التواصل الاجتماعي بشكل احترافي وجذاب.',
-    tags: ['Copywriting', 'Video Production', 'Photography'],
-  },
-  {
-    icon: Building2,
-    title: 'التسويق العقاري',
-    description:
-      'تسويق وبيع العقارات السكنية والتجارية مع تطوير استراتيجيات مبيعات مستهدفة.',
-    tags: ['Real Estate Sales', 'CRM', 'Lead Generation'],
-  },
-  {
-    icon: ShoppingCart,
-    title: 'التجارة الإلكترونية',
-    description:
-      'بناء متاجر Shopify ناجحة وتطوير استراتيجيات Dropshipping مع إدارة الإعلانات والمحتوى.',
-    tags: ['Shopify', 'Dropshipping', 'E-Commerce'],
-  },
-  {
-    icon: Users,
-    title: 'القيادة والتدريب',
-    description:
-      'تدريب فرق المبيعات على أحدث التقنيات وإدارة العمليات اليومية بكفاءة عالية.',
-    tags: ['Team Leadership', 'Sales Training', 'CRM Training'],
-  },
-]
+import { skills, iconMap } from '@/lib/data'
 
 export default function Skills() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -100,26 +48,26 @@ export default function Skills() {
         {/* Header */}
         <div className="text-center mb-16 md:mb-20">
           <span className="reveal inline-block text-sm text-[#C4A265] mb-4 font-medium">
-            المهارات
+            {skills.label.ar}
           </span>
           <h2
             className="reveal text-3xl md:text-4xl lg:text-5xl font-bold leading-tight"
             style={{ color: '#F0EDE8', transitionDelay: '0.15s' }}
           >
-            ما <span className="text-[#C4A265]">أتقنه</span>
+            {skills.heading.ar} <span className="text-[#C4A265]">{skills.highlight.ar}</span>
           </h2>
           <p
             className="reveal mt-4 text-base md:text-lg max-w-2xl mx-auto"
             style={{ color: 'rgba(240, 237, 232, 0.6)', transitionDelay: '0.3s' }}
           >
-            مجموعة متكاملة من المهارات التقنية والتسويقية التي تضمن نجاح أي مشروع
+            {skills.subtitle.ar}
           </p>
         </div>
 
         {/* Skills Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {skills.map((skill, index) => {
-            const Icon = skill.icon
+          {skills.items.map((skill, index) => {
+            const Icon = iconMap[skill.icon]
             return (
               <div
                 key={index}
@@ -158,7 +106,7 @@ export default function Skills() {
                   className="text-xl font-semibold mb-3"
                   style={{ color: '#F0EDE8' }}
                 >
-                  {skill.title}
+                  {skill.title.ar}
                 </h3>
 
                 {/* Description */}
@@ -166,7 +114,7 @@ export default function Skills() {
                   className="text-sm leading-relaxed mb-5"
                   style={{ color: 'rgba(240, 237, 232, 0.7)' }}
                 >
-                  {skill.description}
+                  {skill.description.ar}
                 </p>
 
                 {/* Tags */}
