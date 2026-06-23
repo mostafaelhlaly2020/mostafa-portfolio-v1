@@ -1,0 +1,44 @@
+{
+  "name": {
+    "ar": "مصطفى السيد",
+    "en": "Mostafa El-Sayed"
+  },
+  "tagline": {
+    "ar": "خبير تسويق رقمي | استشارات عقارية",
+    "en": "Digital Marketing Expert | Real Estate Consultant"
+  },
+  "url": "https://portfolio.mostafa-elsayed.site",
+  "locale": "ar-EG",
+  "direction": "rtl",
+  "copyright": {
+    "ar": "© 2025 مصطفى السيد. جميع الحقوق محفوظة.",
+    "en": "© 2025 Mostafa El-Sayed. All rights reserved."
+  },
+  "madeWith": {
+    "ar": "صُنع بشغف في مصر",
+    "en": "Made with passion in Egypt"
+  },
+  "navItems": [
+    { "id": "home", "label": { "ar": "الرئيسية", "en": "Home" }, "href": "#home" },
+    { "id": "about", "label": { "ar": "من أنا", "en": "About" }, "href": "#about" },
+    { "id": "skills", "label": { "ar": "المهارات", "en": "Skills" }, "href": "#skills" },
+    { "id": "experience", "label": { "ar": "الخبرات", "en": "Experience" }, "href": "#experience" },
+    { "id": "certifications", "label": { "ar": "الشهادات", "en": "Certifications" }, "href": "#certifications" },
+    { "id": "contact", "label": { "ar": "التواصل", "en": "Contact" }, "href": "#contact" }
+  ],
+  "quickLinks": [
+    { "label": { "ar": "من أنا", "en": "About Me" }, "href": "#about" },
+    { "label": { "ar": "المهارات", "en": "Skills" }, "href": "#skills" },
+    { "label": { "ar": "الخبرات", "en": "Experience" }, "href": "#experience" },
+    { "label": { "ar": "الشهادات", "en": "Certifications" }, "href": "#certifications" },
+    { "label": { "ar": "آراء العملاء", "en": "Testimonials" }, "href": "#testimonials" },
+    { "label": { "ar": "التواصل", "en": "Contact" }, "href": "#contact" }
+  ],
+  "socialLinks": [
+    { "platform": "facebook", "label": "Facebook", "url": "#" },
+    { "platform": "instagram", "label": "Instagram", "url": "#" },
+    { "platform": "linkedin", "label": "LinkedIn", "url": "#" },
+    { "platform": "tiktok", "label": "TikTok", "url": "#" },
+    { "platform": "whatsapp", "label": "WhatsApp", "url": "https://wa.me/201118839776" }
+  ]
+}

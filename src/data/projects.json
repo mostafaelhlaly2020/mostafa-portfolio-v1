@@ -1,0 +1,14 @@
+{
+  "label": { "ar": "مشاريعي", "en": "My Projects" },
+  "heading": { "ar": "أحدث", "en": "Latest" },
+  "highlight": { "ar": "المشاريع", "en": "Projects" },
+  "subtitle": {
+    "ar": "مجموعة من المشاريع المميزة التي عملت عليها",
+    "en": "A collection of standout projects I have worked on"
+  },
+  "emptyMessage": {
+    "ar": "قريباً... سيتم إضافة المشاريع هنا",
+    "en": "Coming soon... Projects will be added here"
+  },
+  "items": []
+}

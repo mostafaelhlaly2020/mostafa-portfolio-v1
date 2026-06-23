@@ -1,0 +1,75 @@
+{
+  "label": { "ar": "الشهادات", "en": "Certifications" },
+  "heading": { "ar": "شهاداتي", "en": "My" },
+  "highlight": { "ar": "المعتمدة", "en": "Certifications" },
+  "subtitle": {
+    "ar": "تعلم مستمر وشهادات معتمدة من أفضل المنصات العالمية",
+    "en": "Continuous learning and accredited certifications from the best global platforms"
+  },
+  "items": [
+    {
+      "id": "real-estate-marketing-cert",
+      "icon": "Home",
+      "title": { "ar": "التسويق العقاري", "en": "Real Estate Marketing" },
+      "platform": { "ar": "أكاديمية إعمل بيزنس", "en": "E'mal Business Academy" },
+      "year": "2024",
+      "description": { "ar": "6 ساعات تدريبية متخصصة في التسويق العقاري الحديث", "en": "6 hours of specialized training in modern real estate marketing" }
+    },
+    {
+      "id": "real-estate-investment-cert",
+      "icon": "TrendingUp",
+      "title": { "ar": "الاستثمار العقاري", "en": "Real Estate Investment" },
+      "platform": { "ar": "أكاديمية إعمل بيزنس", "en": "E'mal Business Academy" },
+      "year": "2024",
+      "description": { "ar": "أساسيات الاستثمار العقاري وتحليل الفرص الاستثمارية", "en": "Fundamentals of real estate investment and investment opportunity analysis" }
+    },
+    {
+      "id": "real-estate-science-cert",
+      "icon": "BookOpen",
+      "title": { "ar": "مقدمة في علم العقارات", "en": "Introduction to Real Estate Science" },
+      "platform": { "ar": "أكاديمية إعمل بيزنس", "en": "E'mal Business Academy" },
+      "year": "2024",
+      "description": { "ar": "3 ساعات تدريبية في أساسيات علم العقارات", "en": "3 hours of training in the fundamentals of real estate science" }
+    },
+    {
+      "id": "performance-marketing-cert",
+      "icon": "BarChart3",
+      "title": { "ar": "التسويق الأدائي", "en": "Performance Marketing" },
+      "platform": { "ar": "EYouth Learning", "en": "EYouth Learning" },
+      "year": "2023",
+      "description": { "ar": "16 ساعة تدريبية في التسويق الأدائي والحملات المدفوعة", "en": "16 hours of training in performance marketing and paid campaigns" }
+    },
+    {
+      "id": "social-media-business-cert",
+      "icon": "Share2",
+      "title": { "ar": "التواصل الاجتماعي للأعمال", "en": "Social Media for Business" },
+      "platform": { "ar": "Almentor", "en": "Almentor" },
+      "year": "2023",
+      "description": { "ar": "40 ساعة تدريبية في إدارة وسائل التواصل الاجتماعي للشركات", "en": "40 hours of training in corporate social media management" }
+    },
+    {
+      "id": "business-analysis-cert",
+      "icon": "PieChart",
+      "title": { "ar": "تحليل الأعمال", "en": "Business Analysis" },
+      "platform": { "ar": "Coursera - Wharton/UPenn", "en": "Coursera - Wharton/UPenn" },
+      "year": "2020",
+      "description": { "ar": "تخصص كامل في تحليل الأعمال من جامعة بنسلفانيا", "en": "Full specialization in business analysis from the University of Pennsylvania" }
+    },
+    {
+      "id": "digital-marketing-udemy-cert",
+      "icon": "Globe",
+      "title": { "ar": "التسويق الرقمي الشامل", "en": "Comprehensive Digital Marketing" },
+      "platform": { "ar": "Udemy", "en": "Udemy" },
+      "year": "2018",
+      "description": { "ar": "20 ساعة تدريبية شاملة في التسويق الرقمي", "en": "20 hours of comprehensive training in digital marketing" }
+    },
+    {
+      "id": "digital-marketing-modern-world-cert",
+      "icon": "Award",
+      "title": { "ar": "التسويق الرقمي في العالم الحديث", "en": "Digital Marketing in the Modern World" },
+      "platform": { "ar": "Coursera - Univ. of Illinois", "en": "Coursera - Univ. of Illinois" },
+      "year": "2017",
+      "description": { "ar": "فهم عميق للتسويق الرقمي في البيئة الحديثة", "en": "Deep understanding of digital marketing in the modern environment" }
+    }
+  ]
+}

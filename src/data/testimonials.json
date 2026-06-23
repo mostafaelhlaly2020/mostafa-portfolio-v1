@@ -1,0 +1,57 @@
+{
+  "label": { "ar": "آراء العملاء", "en": "Testimonials" },
+  "heading": { "ar": "ماذا يقول", "en": "What My" },
+  "highlight": { "ar": "عملائي", "en": "Clients Say" },
+  "subtitle": {
+    "ar": "شهادات من شركاء وعملاء عملت معهم على مدار السنوات",
+    "en": "Testimonials from partners and clients I have worked with over the years"
+  },
+  "items": [
+    {
+      "id": "ali-imran",
+      "text": {
+        "ar": "مصطفى من أفضل الناس اللي اشتغلت معاها في التسويق العقاري. شغله احترافي والنتائج بتتكلم عن نفسها. الحملات الإعلانية اللي عملها جابت نتائج ممتازة وبيعت وحدات في وقت قياسي.",
+        "en": "Mostafa is one of the best people I have worked with in real estate marketing. His work is professional and the results speak for themselves. The ad campaigns he ran produced excellent results and units were sold in record time."
+      },
+      "name": { "ar": "علي عمران", "en": "Ali Imran" },
+      "role": {
+        "ar": "الرئيس التنفيذي - شركة العمران للاستثمار العقاري",
+        "en": "CEO - Al-Omran Real Estate Investment Co."
+      }
+    },
+    {
+      "id": "mohamed-ahmed",
+      "text": {
+        "ar": "الشغل مع مصطفى كان تجربة ممتازة. فاهم جداً في التسويق الرقمي وبيعرف يوصل للجمهور المستهدف بكفاءة. الحملات على TikTok وInstagram كانت ناجحة جداً لمقهى كفة.",
+        "en": "Working with Mostafa was an excellent experience. He really understands digital marketing and knows how to reach the target audience efficiently. The TikTok and Instagram campaigns were very successful for Koffa Cafe."
+      },
+      "name": { "ar": "محمد أحمد", "en": "Mohamed Ahmed" },
+      "role": {
+        "ar": "صاحب كفة كافيه - أسيوط",
+        "en": "Owner - Koffa Cafe, Assiut"
+      }
+    },
+    {
+      "id": "fahad-al-subaie",
+      "text": {
+        "ar": "مصطفى ساعدنا في إعادة بناء علامتنا التجارية في السوق السعودي. الاستراتيجية التسويقية كانت ممتازة والنتائج فاقت التوقعات. بنصح أي حد يشتغل معاه.",
+        "en": "Mostafa helped us rebuild our brand in the Saudi market. The marketing strategy was excellent and the results exceeded expectations. I recommend anyone to work with him."
+      },
+      "name": { "ar": "فهد السبيعي", "en": "Fahad Al-Subaie" },
+      "role": {
+        "ar": "مدير التسويق - بهجة الدار - الرياض",
+        "en": "Marketing Manager - Bahjat Al-Dar, Riyadh"
+      }
+    }
+  ],
+  "companies": [
+    "RE/MAX",
+    "Chubb",
+    "WE",
+    "VIVO",
+    "Kayan",
+    "Coursera",
+    "Udemy",
+    "Almentor"
+  ]
+}

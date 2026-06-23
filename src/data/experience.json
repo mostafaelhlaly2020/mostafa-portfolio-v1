@@ -1,0 +1,115 @@
+{
+  "label": { "ar": "الخبرات", "en": "Experience" },
+  "heading": { "ar": "مسيرتي", "en": "My Career" },
+  "highlight": { "ar": "المهنية", "en": "Journey" },
+  "subtitle": {
+    "ar": "رحلة عمل مليئة بالإنجازات في شركات محلية وعالمية",
+    "en": "A career journey full of achievements in local and international companies"
+  },
+  "items": [
+    {
+      "id": "remax",
+      "date": { "ar": "نوفمبر 2025 - الآن", "en": "Nov 2025 - Present" },
+      "title": { "ar": "استشاري عقارات", "en": "Real Estate Consultant" },
+      "company": "RE/MAX Barah",
+      "responsibilities": [
+        {
+          "ar": "تسويق وبيع العقارات السكنية والتجارية في محافظة أسيوط",
+          "en": "Marketing and selling residential and commercial properties in Assiut Governorate"
+        },
+        {
+          "ar": "تطوير استراتيجيات مبيعات مستهدفة لتحسين جودة العملاء المحتملين",
+          "en": "Developing targeted sales strategies to improve lead quality"
+        },
+        {
+          "ar": "إدارة علاقات العملاء وتحقيق أهداف المبيعات الشهرية",
+          "en": "Managing client relationships and achieving monthly sales targets"
+        }
+      ]
+    },
+    {
+      "id": "chubb",
+      "date": { "ar": "فبراير 2025 - سبتمبر 2025", "en": "Feb 2025 - Sep 2025" },
+      "title": { "ar": "وسيط تأمين", "en": "Insurance Broker" },
+      "company": "Chubb Insurance",
+      "responsibilities": [
+        {
+          "ar": "استشارة العملاء وإقناعهم باقتناء وثائق التأمين المناسبة",
+          "en": "Advising clients and convincing them to purchase suitable insurance policies"
+        },
+        {
+          "ar": "تحقيق أهداف المبيعات الشهرية من خلال التواصل الاستباقي",
+          "en": "Achieving monthly sales targets through proactive communication"
+        },
+        {
+          "ar": "تقديم حلول تأمينية مخصصة حسب احتياجات كل عميل",
+          "en": "Providing customized insurance solutions based on each client's needs"
+        }
+      ]
+    },
+    {
+      "id": "we-telecom",
+      "date": { "ar": "يوليو 2024 - يناير 2025", "en": "Jul 2024 - Jan 2025" },
+      "title": { "ar": "مساعد مدير تسويق التجزئة", "en": "Assistant Retail Marketing Manager" },
+      "company": "WE Telecommunications",
+      "responsibilities": [
+        {
+          "ar": "مساعدة مدير التسويق في العمليات اليومية والتخطيط والتنفيذ",
+          "en": "Assisting the marketing manager in daily operations, planning, and execution"
+        },
+        {
+          "ar": "تدريب مروجي مبيعات VIVO على ميزات الأجهزة وتقنيات البيع",
+          "en": "Training VIVO sales promoters on device features and sales techniques"
+        },
+        {
+          "ar": "الزيارات الميدانية لمتاجر الشركاء لضمان معايير العلامة التجارية",
+          "en": "Field visits to partner stores to ensure brand standards compliance"
+        }
+      ]
+    },
+    {
+      "id": "ic-outsource",
+      "date": { "ar": "يوليو 2023 - ديسمبر 2023", "en": "Jul 2023 - Dec 2023" },
+      "title": { "ar": "مدير مبيعات ومدير تسويق رقمي", "en": "Sales Manager & Digital Marketing Manager" },
+      "company": "IC Outsource - VIVO Mobile",
+      "responsibilities": [
+        {
+          "ar": "إدارة العمليات اليومية والتخطيط التسويقي للتجزئة",
+          "en": "Managing daily operations and retail marketing planning"
+        },
+        {
+          "ar": "تدريب فرق المبيعات على أحدث التقنيات والمنتجات",
+          "en": "Training sales teams on the latest technologies and products"
+        },
+        {
+          "ar": "تنظيم العروض الترويجية داخل المتاجر ومراقبة الامتثال",
+          "en": "Organizing in-store promotions and monitoring compliance"
+        }
+      ]
+    },
+    {
+      "id": "kayan",
+      "date": { "ar": "ديسمبر 2023 - يونيو 2024", "en": "Dec 2023 - Jun 2024" },
+      "title": { "ar": "ممثل مركز اتصال ودعم العملاء", "en": "Call Center & Customer Support Representative" },
+      "company": "Kayan Property | Al-Omran Real Estate Investment Co.",
+      "responsibilities": [
+        {
+          "ar": "بناء علامة Kayan Property التجارية من الصفر ككيان جديد",
+          "en": "Building the Kayan Property brand from scratch as a new entity"
+        },
+        {
+          "ar": "إنشاء وإدارة جميع حسابات التواصل الاجتماعي واستراتيجية المحتوى",
+          "en": "Creating and managing all social media accounts and content strategy"
+        },
+        {
+          "ar": "إطلاق وإدارة الحملات الإعلانية المدفوعة لتسويق العقارات",
+          "en": "Launching and managing paid advertising campaigns for property marketing"
+        },
+        {
+          "ar": "تدريب فريق المبيعات على تقنيات البيع العقاري الحديثة",
+          "en": "Training the sales team on modern real estate sales techniques"
+        }
+      ]
+    }
+  ]
+}

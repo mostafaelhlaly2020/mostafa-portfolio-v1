@@ -1,0 +1,9 @@
+{
+  "status": { "ar": "متاح للعمل", "en": "Available for work" },
+  "name": { "ar": "مصطفى\nالسيد", "en": "Mostafa\nEl-Sayed" },
+  "title": { "ar": "خبير تسويق رقمي واستشارات عقارية", "en": "Digital Marketing & Real Estate Consultant" },
+  "cta": { "ar": "تواصل معي", "en": "Get in Touch" },
+  "backgroundGradient": "linear-gradient(135deg, #E6E2DD 0%, #D8D4CF 100%)",
+  "portraitImage": "/hero-portrait.png",
+  "portraitAlt": { "ar": "مصطفى السيد", "en": "Mostafa El-Sayed" }
+}
