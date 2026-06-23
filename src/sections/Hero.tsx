@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { ArrowUpLeft } from 'lucide-react'
 import gsap from 'gsap'
+import { hero } from '@/lib/data'
 
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null)
@@ -75,7 +76,7 @@ export default function Hero() {
       id="home"
       ref={heroRef}
       className="relative min-h-screen overflow-hidden"
-      style={{ background: 'linear-gradient(135deg, #E6E2DD 0%, #D8D4CF 100%)' }}
+      style={{ background: hero.backgroundGradient }}
     >
       {/* Top Bar */}
       <div className="absolute top-0 left-0 right-0 z-20 px-6 md:px-12 py-6">
@@ -88,7 +89,7 @@ export default function Hero() {
             <div className="flex items-center gap-2 bg-white/60 backdrop-blur-sm rounded-full px-4 py-2">
               <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 pulse-dot"></span>
               <span className="text-sm font-medium text-[#1A1A1A]">
-                متاح للعمل
+                {hero.status.ar}
               </span>
             </div>
           </div>
@@ -100,7 +101,7 @@ export default function Hero() {
             onClick={scrollToContact}
             className="flex items-center gap-2 opacity-0 translate-y-4 text-[#1A1A1A] hover:text-[#C4A265] transition-colors duration-300 group"
           >
-            <span className="text-sm font-semibold">تواصل معي</span>
+            <span className="text-sm font-semibold">{hero.cta.ar}</span>
             <ArrowUpLeft className="w-4 h-4 transition-transform duration-300 group-hover:-translate-x-1 group-hover:translate-y-1" />
           </a>
         </div>
@@ -116,15 +117,22 @@ export default function Hero() {
               className="opacity-0 translate-y-8 text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-[#1A1A1A] leading-tight tracking-tight"
               style={{ fontFamily: "'Cairo', sans-serif" }}
             >
-              مصطفى
-              <br />
-              السيد
+              {hero.name.ar.split('\n').map((part, i) =>
+                i === 0 ? (
+                  part
+                ) : (
+                  <span key={i}>
+                    <br />
+                    {part}
+                  </span>
+                )
+              )}
             </h1>
             <p
               ref={titleRef}
               className="opacity-0 translate-y-6 mt-6 text-xl md:text-2xl text-[#6B6B6B] font-light"
             >
-              خبير تسويق رقمي واستشارات عقارية
+              {hero.title.ar}
             </p>
           </div>
 
@@ -136,8 +144,8 @@ export default function Hero() {
             <div className="relative">
               <div className="w-64 h-80 md:w-80 md:h-[28rem] lg:w-96 lg:h-[32rem] rounded-2xl overflow-hidden shadow-2xl">
                 <img
-                  src="/hero-portrait.png"
-                  alt="مصطفى السيد"
+                  src={hero.portraitImage}
+                  alt={hero.portraitAlt.ar}
                   className="w-full h-full object-cover"
                 />
               </div>
