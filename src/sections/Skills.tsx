@@ -67,7 +67,7 @@ export default function Skills() {
         {/* Skills Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {skills.items.map((skill, index) => {
-            const Icon = iconMap[skill.icon] || iconMap['Award']
+            const Icon = iconMap[skill.icon] ?? iconMap['TrendingUp']
             return (
               <div
                 key={index}
