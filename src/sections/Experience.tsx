@@ -1,58 +1,5 @@
 import { useEffect, useRef } from 'react'
-
-const experiences = [
-  {
-    date: 'نوفمبر 2025 - الآن',
-    title: 'استشاري عقارات',
-    company: 'RE/MAX Barah',
-    responsibilities: [
-      'تسويق وبيع العقارات السكنية والتجارية في محافظة أسيوط',
-      'تطوير استراتيجيات مبيعات مستهدفة لتحسين جودة العملاء المحتملين',
-      'إدارة علاقات العملاء وتحقيق أهداف المبيعات الشهرية',
-    ],
-  },
-  {
-    date: 'فبراير 2025 - سبتمبر 2025',
-    title: 'وسيط تأمين',
-    company: 'Chubb Insurance',
-    responsibilities: [
-      'استشارة العملاء وإقناعهم باقتناء وثائق التأمين المناسبة',
-      'تحقيق أهداف المبيعات الشهرية من خلال التواصل الاستباقي',
-      'تقديم حلول تأمينية مخصصة حسب احتياجات كل عميل',
-    ],
-  },
-  {
-    date: 'يوليو 2024 - يناير 2025',
-    title: 'مساعد مدير تسويق التجزئة',
-    company: 'WE Telecommunications',
-    responsibilities: [
-      'مساعدة مدير التسويق في العمليات اليومية والتخطيط والتنفيذ',
-      'تدريب مروجي مبيعات VIVO على ميزات الأجهزة وتقنيات البيع',
-      'الزيارات الميدانية لمتاجر الشركاء لضمان معايير العلامة التجارية',
-    ],
-  },
-  {
-    date: 'يوليو 2023 - ديسمبر 2023',
-    title: 'مدير مبيعات ومدير تسويق رقمي',
-    company: 'IC Outsource - VIVO Mobile',
-    responsibilities: [
-      'إدارة العمليات اليومية والتخطيط التسويقي للتجزئة',
-      'تدريب فرق المبيعات على أحدث التقنيات والمنتجات',
-      'تنظيم العروض الترويجية داخل المتاجر ومراقبة الامتثال',
-    ],
-  },
-  {
-    date: 'ديسمبر 2023 - يونيو 2024',
-    title: 'ممثل مركز اتصال ودعم العملاء',
-    company: 'Kayan Property | Al-Omran Real Estate Investment Co.',
-    responsibilities: [
-      'بناء علامة Kayan Property التجارية من الصفر ككيان جديد',
-      'إنشاء وإدارة جميع حسابات التواصل الاجتماعي واستراتيجية المحتوى',
-      'إطلاق وإدارة الحملات الإعلانية المدفوعة لتسويق العقارات',
-      'تدريب فريق المبيعات على تقنيات البيع العقاري الحديثة',
-    ],
-  },
-]
+import { experience } from '@/lib/data'
 
 export default function Experience() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -117,19 +64,19 @@ export default function Experience() {
         {/* Header */}
         <div className="text-center mb-16 md:mb-20">
           <span className="reveal inline-block text-sm text-[#6B6B6B] mb-4 font-medium">
-            الخبرات
+            {experience.label.ar}
           </span>
           <h2
             className="reveal text-3xl md:text-4xl lg:text-5xl font-bold text-[#1A1A1A] leading-tight"
             style={{ transitionDelay: '0.15s' }}
           >
-            مسيرتي <span className="text-[#C4A265]">المهنية</span>
+            {experience.heading.ar} <span className="text-[#C4A265]">{experience.highlight.ar}</span>
           </h2>
           <p
             className="reveal mt-4 text-base md:text-lg text-[#6B6B6B] max-w-2xl mx-auto"
             style={{ transitionDelay: '0.3s' }}
           >
-            رحلة عمل مليئة بالإنجازات في شركات محلية وعالمية
+            {experience.subtitle.ar}
           </p>
         </div>
 
@@ -148,7 +95,7 @@ export default function Experience() {
 
           {/* Timeline Items */}
           <div className="space-y-10 md:space-y-14">
-            {experiences.map((exp, index) => (
+            {experience.items.map((exp, index) => (
               <div
                 key={index}
                 className="timeline-item relative pr-16 md:pr-20"
@@ -197,12 +144,12 @@ export default function Experience() {
                       color: '#C4A265',
                     }}
                   >
-                    {exp.date}
+                    {exp.date.ar}
                   </span>
 
                   {/* Title & Company */}
                   <h3 className="text-lg md:text-xl font-bold text-[#1A1A1A] mb-1">
-                    {exp.title}
+                    {exp.title.ar}
                   </h3>
                   <p className="text-sm md:text-base text-[#6B6B6B] mb-4">
                     {exp.company}
@@ -219,7 +166,7 @@ export default function Experience() {
                           className="w-1.5 h-1.5 rounded-full mt-2 flex-shrink-0"
                           style={{ backgroundColor: '#C4A265' }}
                         />
-                        <span>{resp}</span>
+                        <span>{resp.ar}</span>
                       </li>
                     ))}
                   </ul>

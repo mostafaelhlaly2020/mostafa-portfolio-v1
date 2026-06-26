@@ -1,0 +1,71 @@
+{
+  "label": { "ar": "المهارات", "en": "Skills" },
+  "heading": { "ar": "ما", "en": "What I" },
+  "highlight": { "ar": "أتقنه", "en": "Excel At" },
+  "subtitle": {
+    "ar": "مجموعة متكاملة من المهارات التقنية والتسويقية التي تضمن نجاح أي مشروع",
+    "en": "A comprehensive set of technical and marketing skills that ensure the success of any project"
+  },
+  "items": [
+    {
+      "id": "digital-marketing",
+      "icon": "TrendingUp",
+      "title": { "ar": "التسويق الرقمي", "en": "Digital Marketing" },
+      "description": {
+        "ar": "تطوير استراتيجيات تسويقية شاملة تشمل جميع القنوات الرقمية مع التركيز على تحقيق أعلى عائد استثمار.",
+        "en": "Developing comprehensive marketing strategies covering all digital channels with a focus on maximizing ROI."
+      },
+      "tags": ["SEO", "Content Marketing", "Email Marketing"]
+    },
+    {
+      "id": "paid-ads",
+      "icon": "Target",
+      "title": { "ar": "الإعلانات المدفوعة", "en": "Paid Advertising" },
+      "description": {
+        "ar": "إدارة حملات إعلانية مربحة على Meta Ads وTikTok Ads وGoogle Ads مع تحسين مستمر للأداء.",
+        "en": "Managing profitable ad campaigns on Meta Ads, TikTok Ads, and Google Ads with continuous performance optimization."
+      },
+      "tags": ["Meta Ads", "TikTok Ads", "Google Ads"]
+    },
+    {
+      "id": "content-creation",
+      "icon": "PenTool",
+      "title": { "ar": "إنشاء المحتوى", "en": "Content Creation" },
+      "description": {
+        "ar": "كتابة محتوى إبداعي مقنع وإدارة حسابات التواصل الاجتماعي بشكل احترافي وجذاب.",
+        "en": "Writing compelling creative content and managing social media accounts professionally and engagingly."
+      },
+      "tags": ["Copywriting", "Video Production", "Photography"]
+    },
+    {
+      "id": "real-estate-marketing",
+      "icon": "Building2",
+      "title": { "ar": "التسويق العقاري", "en": "Real Estate Marketing" },
+      "description": {
+        "ar": "تسويق وبيع العقارات السكنية والتجارية مع تطوير استراتيجيات مبيعات مستهدفة.",
+        "en": "Marketing and selling residential and commercial properties with targeted sales strategy development."
+      },
+      "tags": ["Real Estate Sales", "CRM", "Lead Generation"]
+    },
+    {
+      "id": "ecommerce",
+      "icon": "ShoppingCart",
+      "title": { "ar": "التجارة الإلكترونية", "en": "E-Commerce" },
+      "description": {
+        "ar": "بناء متاجر Shopify ناجحة وتطوير استراتيجيات Dropshipping مع إدارة الإعلانات والمحتوى.",
+        "en": "Building successful Shopify stores and developing Dropshipping strategies with ad and content management."
+      },
+      "tags": ["Shopify", "Dropshipping", "E-Commerce"]
+    },
+    {
+      "id": "leadership",
+      "icon": "Users",
+      "title": { "ar": "القيادة والتدريب", "en": "Leadership & Training" },
+      "description": {
+        "ar": "تدريب فرق المبيعات على أحدث التقنيات وإدارة العمليات اليومية بكفاءة عالية.",
+        "en": "Training sales teams on the latest techniques and managing daily operations with high efficiency."
+      },
+      "tags": ["Team Leadership", "Sales Training", "CRM Training"]
+    }
+  ]
+}

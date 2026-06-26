@@ -1,73 +1,5 @@
 import { useEffect, useRef } from 'react'
-import {
-  Home,
-  TrendingUp,
-  BookOpen,
-  BarChart3,
-  Share2,
-  PieChart,
-  Globe,
-  Award,
-} from 'lucide-react'
-
-const certifications = [
-  {
-    icon: Home,
-    title: 'التسويق العقاري',
-    platform: 'أكاديمية إعمل بيزنس',
-    year: '2024',
-    description: '6 ساعات تدريبية متخصصة في التسويق العقاري الحديث',
-  },
-  {
-    icon: TrendingUp,
-    title: 'الاستثمار العقاري',
-    platform: 'أكاديمية إعمل بيزنس',
-    year: '2024',
-    description: 'أساسيات الاستثمار العقاري وتحليل الفرص الاستثمارية',
-  },
-  {
-    icon: BookOpen,
-    title: 'مقدمة في علم العقارات',
-    platform: 'أكاديمية إعمل بيزنس',
-    year: '2024',
-    description: '3 ساعات تدريبية في أساسيات علم العقارات',
-  },
-  {
-    icon: BarChart3,
-    title: 'التسويق الأدائي',
-    platform: 'EYouth Learning',
-    year: '2023',
-    description: '16 ساعة تدريبية في التسويق الأدائي والحملات المدفوعة',
-  },
-  {
-    icon: Share2,
-    title: 'التواصل الاجتماعي للأعمال',
-    platform: 'Almentor',
-    year: '2023',
-    description: '40 ساعة تدريبية في إدارة وسائل التواصل الاجتماعي للشركات',
-  },
-  {
-    icon: PieChart,
-    title: 'تحليل الأعمال',
-    platform: 'Coursera - Wharton/UPenn',
-    year: '2020',
-    description: 'تخصص كامل في تحليل الأعمال من جامعة بنسلفانيا',
-  },
-  {
-    icon: Globe,
-    title: 'التسويق الرقمي الشامل',
-    platform: 'Udemy',
-    year: '2018',
-    description: '20 ساعة تدريبية شاملة في التسويق الرقمي',
-  },
-  {
-    icon: Award,
-    title: 'التسويق الرقمي في العالم الحديث',
-    platform: 'Coursera - Univ. of Illinois',
-    year: '2017',
-    description: 'فهم عميق للتسويق الرقمي في البيئة الحديثة',
-  },
-]
+import { certifications, iconMap } from '@/lib/data'
 
 export default function Certifications() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -117,26 +49,26 @@ export default function Certifications() {
         {/* Header */}
         <div className="text-center mb-16 md:mb-20">
           <span className="reveal inline-block text-sm text-[#6B6B6B] mb-4 font-medium">
-            الشهادات
+            {certifications.label.ar}
           </span>
           <h2
             className="reveal text-3xl md:text-4xl lg:text-5xl font-bold text-[#1A1A1A] leading-tight"
             style={{ transitionDelay: '0.15s' }}
           >
-            شهاداتي <span className="text-[#C4A265]">المعتمدة</span>
+            {certifications.heading.ar} <span className="text-[#C4A265]">{certifications.highlight.ar}</span>
           </h2>
           <p
             className="reveal mt-4 text-base md:text-lg text-[#6B6B6B] max-w-2xl mx-auto"
             style={{ transitionDelay: '0.3s' }}
           >
-            تعلم مستمر وشهادات معتمدة من أفضل المنصات العالمية
+            {certifications.subtitle.ar}
           </p>
         </div>
 
         {/* Certifications Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {certifications.map((cert, index) => {
-            const Icon = cert.icon
+          {certifications.items.map((cert, index) => {
+            const Icon = iconMap[cert.icon] || iconMap['Award']
             return (
               <div
                 key={index}
@@ -183,15 +115,15 @@ export default function Certifications() {
 
                 {/* Title */}
                 <h3 className="text-base font-semibold text-[#1A1A1A] mb-1">
-                  {cert.title}
+                  {cert.title.ar}
                 </h3>
 
                 {/* Platform */}
-                <p className="text-xs text-[#6B6B6B] mb-3">{cert.platform}</p>
+                <p className="text-xs text-[#6B6B6B] mb-3">{cert.platform.ar}</p>
 
                 {/* Description */}
-                <p className="text-sm text-[#6B6B6B] leading-relaxed">
-                  {cert.description}
+                <p className="text-xs text-[#6B6B6B]">
+                  {cert.description.ar}
                 </p>
               </div>
             )

@@ -1,13 +1,5 @@
 import { useState, useEffect } from 'react'
-
-const navItems = [
-  { label: 'الرئيسية', href: '#home' },
-  { label: 'من أنا', href: '#about' },
-  { label: 'المهارات', href: '#skills' },
-  { label: 'الخبرات', href: '#experience' },
-  { label: 'الشهادات', href: '#certifications' },
-  { label: 'التواصل', href: '#contact' },
-]
+import { site } from '@/lib/data'
 
 export default function BottomNav() {
   const [activeSection, setActiveSection] = useState('home')
@@ -19,7 +11,7 @@ export default function BottomNav() {
       setIsVisible(window.scrollY > window.innerHeight * 0.6)
 
       // Determine active section
-      const sections = navItems.map((item) => item.href.slice(1))
+      const sections = site.navItems.map((item) => item.href.slice(1))
       for (let i = sections.length - 1; i >= 0; i--) {
         const el = document.getElementById(sections[i])
         if (el) {
@@ -59,7 +51,7 @@ export default function BottomNav() {
           boxShadow: '0 4px 30px rgba(0, 0, 0, 0.1)',
         }}
       >
-        {navItems.map((item) => (
+        {site.navItems.map((item) => (
           <a
             key={item.href}
             href={item.href}
@@ -76,7 +68,7 @@ export default function BottomNav() {
                 style={{ backgroundColor: '#1A1A1A' }}
               />
             )}
-            <span className="relative z-10 whitespace-nowrap">{item.label}</span>
+            <span className="relative z-10 whitespace-nowrap">{item.label.ar}</span>
           </a>
         ))}
       </div>

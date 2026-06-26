@@ -1,0 +1,22 @@
+{
+  "label": { "ar": "من أنا", "en": "About Me" },
+  "heading": { "ar": "خبير تسويق رقمي", "en": "Digital Marketing Expert" },
+  "highlight": { "ar": "بشغف لا ينتهي", "en": "With Endless Passion" },
+  "paragraphs": [
+    {
+      "ar": "أنا مصطفى السيد (محمد سيد هاشم)، خبير تسويق رقمي واستشاري عقارات بخبرة تتجاوز 9 سنوات في مصر والعالم العربي. بدأت رحلتي منذ عام 2015، واكتسبت خبرة واسعة في بناء العلامات التجارية من الصفر، وإدارة الحملات الإعلانية المدفوعة على منصات Meta وTikTok وGoogle.",
+      "en": "I am Mostafa El-Sayed (Mohamed Sayed Hashem), a digital marketing expert and real estate consultant with over 9 years of experience in Egypt and the Arab world. I started my journey in 2015, gaining extensive experience in building brands from scratch and managing paid advertising campaigns on Meta, TikTok, and Google platforms."
+    },
+    {
+      "ar": "عملت مع شركات كبرى مثل RE/MAX Barah وChubb Insurance وWE Telecommunications، بالإضافة إلى إدارة مشاريع مستقلة ناجحة في مصر والسعودية. أتميز بقدرتي على تطوير استراتيجيات تسويقية شاملة، وتدريب فرق المبيعات، وتحقيق نمو ملموس للأعمال.",
+      "en": "I have worked with major companies such as RE/MAX Barah, Chubb Insurance, and WE Telecommunications, in addition to managing successful independent projects in Egypt and Saudi Arabia. I specialize in developing comprehensive marketing strategies, training sales teams, and achieving tangible business growth."
+    },
+    {
+      "ar": "أسعى دائماً لتحقيق نتائج استثنائية من خلال الجمع بين الإبداع والتحليل البيانات، مع التركيز على فهم احتياجات العميل وتقديم حلول تسويقية مبتكرة تتجاوز التوقعات.",
+      "en": "I always strive to achieve exceptional results by combining creativity with data analysis, focusing on understanding client needs and delivering innovative marketing solutions that exceed expectations."
+    }
+  ],
+  "cta": { "ar": "تواصل معي", "en": "Get in Touch" },
+  "image": "/about-portrait.png",
+  "imageAlt": { "ar": "مصطفى السيد في مكتبه", "en": "Mostafa El-Sayed at his office" }
+}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { site } from '@/lib/data'
 
 export default function Preloader() {
   const [hidden, setHidden] = useState(false)
@@ -42,7 +43,7 @@ export default function Preloader() {
             animation: 'pulse 1.5s ease-in-out infinite',
           }}
         >
-          مصطفى السيد
+          {site.name.ar}
         </h1>
         {/* Progress bar */}
         <div
