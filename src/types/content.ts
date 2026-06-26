@@ -72,6 +72,8 @@ export const SiteSchema = z.object({
       url: z.string(),
     })
   ),
+  quickLinksLabel: LocalizedString.optional(),
+  socialLabel: LocalizedString.optional(),
 })
 export type SiteData = z.infer<typeof SiteSchema>
 
