@@ -193,7 +193,7 @@ const ContactMethod = z.object({
   id: z.string(),
   icon: z.string(),
   label: LocalizedString,
-  value: z.union([LocalizedString, z.string()]),
+  value: LocalizedString,
   href: z.string(),
 })
 

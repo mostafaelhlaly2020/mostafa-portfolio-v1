@@ -48,14 +48,14 @@
       "id": "phone",
       "icon": "Phone",
       "label": { "ar": "الهاتف / واتساب", "en": "Phone / WhatsApp" },
-      "value": "+20 111 883 9776",
-      "href": "tel:+201118839776"
+      "value": { "ar": "+20 111 883 9776", "en": "+20 111 883 9776" },
+      "href": "tel:+201****9776"
     },
     {
       "id": "email",
       "icon": "Mail",
       "label": { "ar": "البريد الإلكتروني", "en": "Email" },
-      "value": "mostafa.elhlaly2020@gmail.com",
+      "value": { "ar": "mostafa.elhlaly2020@gmail.com", "en": "mostafa.elhlaly2020@gmail.com" },
       "href": "mailto:mostafa.elhlaly2020@gmail.com"
     },
     {
@@ -69,7 +69,7 @@
       "id": "website",
       "icon": "Globe",
       "label": { "ar": "الموقع الإلكتروني", "en": "Website" },
-      "value": "portfolio.mostafa-elsayed.site",
+      "value": { "ar": "portfolio.mostafa-elsayed.site", "en": "portfolio.mostafa-elsayed.site" },
       "href": "https://portfolio.mostafa-elsayed.site"
     }
   ]

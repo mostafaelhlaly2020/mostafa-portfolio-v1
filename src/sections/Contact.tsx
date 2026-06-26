@@ -288,7 +288,7 @@ export default function Contact() {
                         {item.label.ar}
                       </p>
                       <p className="text-sm font-medium text-[#1A1A1A]">
-                        {typeof item.value === 'string' ? item.value : item.value.ar}
+                        {item.value.ar}
                       </p>
                     </div>
                   </a>
