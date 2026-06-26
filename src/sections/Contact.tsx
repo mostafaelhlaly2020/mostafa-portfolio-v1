@@ -36,6 +36,8 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    // Log form data — backend integration placeholder
+    console.info('[Contact] Form submitted:', formData)
     setSubmitted(true)
     setTimeout(() => {
       setSubmitted(false)
