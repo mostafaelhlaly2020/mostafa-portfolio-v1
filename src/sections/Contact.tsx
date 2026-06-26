@@ -9,7 +9,7 @@ export default function Contact() {
     subject: '',
     message: '',
   })
-  const [submitted, setSubmitted] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -36,14 +36,111 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    setStatus('submitting')
     // Log form data — backend integration placeholder
     console.info('[Contact] Form submitted:', formData)
-    setSubmitted(true)
+    // Simulate async submission
     setTimeout(() => {
-      setSubmitted(false)
+      setStatus('success')
       setFormData({ name: '', email: '', subject: '', message: '' })
-    }, 3000)
+      // Auto-reset to idle after 3 seconds
+      setTimeout(() => setStatus('idle'), 3000)
+    }, 1000)
   }
+
+  const renderStatus = () => {
+    if (status === 'success') {
+      return (
+        <div className="text-center py-16">
+          <div
+            className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+            style={{ backgroundColor: 'rgba(196, 162, 101, 0.15)' }}
+          >
+            <svg
+              className="w-8 h-8 text-[#C4A265]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          </div>
+          <h3 className="text-xl font-bold text-[#1A1A1A] mb-2">
+            {contact.successTitle.ar}
+          </h3>
+          <p className="text-[#6B6B6B]">
+            {contact.successMessage.ar}
+          </p>
+        </div>
+      )
+    }
+    if (status === 'submitting') {
+      return (
+        <div className="text-center py-16">
+           <div
+             className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 animate-spin"
+             style={{ backgroundColor: 'rgba(196, 162, 101, 0.15)' }}
+           >
+             <svg
+               className="w-8 h-8 text-[#C4A265]"
+               fill="none"
+               viewBox="0 0 24 24"
+               stroke="currentColor"
+             >
+               <path
+                 strokeLinecap="round"
+                 strokeLinejoin="round"
+                 strokeWidth={2}
+                 d="M4 4v15.11M4 4h15.11M4 4l15.11 15.11"
+               />
+             </svg>
+           </div>
+           <h3 className="text-xl font-bold text-[#1A1A1A] mb-2">
+             {contact.submittingTitle?.ar || 'جاري الإرسال...'}
+           </h3>
+           <p className="text-[#6B6B6B]">
+             {contact.submittingMessage?.ar || 'يرجى الانتظار...'}
+           </p>
+         </div>
+       )
+     }
+     if (status === 'error') {
+       return (
+         <div className="text-center py-16">
+           <div
+             className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
+             style={{ backgroundColor: 'rgba(239, 68, 68, 0.15)' }}
+           >
+             <svg
+               className="w-8 h-8 text-red-600"
+               fill="none"
+               viewBox="0 0 24 24"
+               stroke="currentColor"
+             >
+               <path
+                 strokeLinecap="round"
+                 strokeLinejoin="round"
+                 strokeWidth={2}
+                 d="M6 18L18 6M6 6l12 12"
+               />
+             </svg>
+           </div>
+           <h3 className="text-xl font-bold text-[#1A1A1A] mb-2">
+             {contact.errorTitle?.ar || 'حدث خطأ'}
+           </h3>
+           <p className="text-[#6B6B6B]">
+             {contact.errorMessage?.ar || 'فشل في تسجيل الرسالة. يرجى المحاولة مرة أخرى.'}
+           </p>
+         </div>
+       )
+     }
+     return null
+   }
 
   return (
     <section
@@ -81,34 +178,9 @@ export default function Contact() {
               transitionDelay: '0.45s',
             }}
           >
-            {submitted ? (
-              <div className="text-center py-16">
-                <div
-                  className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"
-                  style={{ backgroundColor: 'rgba(196, 162, 101, 0.15)' }}
-                >
-                  <svg
-                    className="w-8 h-8 text-[#C4A265]"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                </div>
-                <h3 className="text-xl font-bold text-[#1A1A1A] mb-2">
-                  {contact.successTitle.ar}
-                </h3>
-                <p className="text-[#6B6B6B]">
-                  {contact.successMessage.ar}
-                </p>
-              </div>
-            ) : (
+            {renderStatus()}
+
+            {status === 'idle' && (
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div>
                   <label className="block text-sm font-medium text-[#1A1A1A] mb-2">
@@ -240,6 +312,7 @@ export default function Contact() {
                   onMouseLeave={(e) => {
                     e.currentTarget.style.backgroundColor = '#2D2D2D'
                   }}
+                  disabled={status !== 'idle'}
                 >
                   {contact.submitButton.ar}
                 </button>

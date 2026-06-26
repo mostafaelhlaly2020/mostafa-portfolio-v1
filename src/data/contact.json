@@ -7,11 +7,15 @@
     "en": "Ready to turn your ideas into tangible results. Contact me now"
   },
   "infoLabel": { "ar": "معلومات التواصل", "en": "Contact Information" },
-  "successTitle": { "ar": "تم الإرسال بنجاح!", "en": "Sent Successfully!" },
+  "successTitle": { "ar": "تم تسجيل الرسالة محلياً", "en": "Message Logged Locally" },
   "successMessage": {
-    "ar": "شكراً لتواصلك! سأرد عليك في أقرب وقت.",
-    "en": "Thank you for reaching out! I will get back to you as soon as possible."
+    "ar": "شكراً لتواصلك! تم تسجيل رسالتك محلياً. سيتم الرد عليك في أقرب وقت.",
+    "en": "Thank you for reaching out! Your message has been logged locally. We'll get back to you as soon as possible."
   },
+  "submittingTitle": { "ar": "جاري الإرسال...", "en": "Sending..." },
+  "submittingMessage": { "ar": "يرجى الانتظار...", "en": "Please wait..." },
+  "errorTitle": { "ar": "حدث خطأ", "en": "Error" },
+  "errorMessage": { "ar": "فشل في تسجيل الرسالة. يرجى المحاولة مرة أخرى.", "en": "Failed to log message. Please try again." },
   "submitButton": { "ar": "إرسال الرسالة", "en": "Send Message" },
   "formFields": [
     {
