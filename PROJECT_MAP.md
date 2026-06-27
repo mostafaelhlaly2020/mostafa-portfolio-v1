@@ -89,6 +89,12 @@ Remaining risks:
 ### Phase 2 — App Shell & Routing
 **Status:** Active on `phase-2-app-shell-routing` branch
 
+### Cinematic Branch Decision
+**Date:** 2026-06-27
+**Branch:** `redesign-cinematic` (HEAD: `2fd0071`)
+**Decision:** DELETE
+**Reasoning:** Full audit showed 0 unique commits and 0 unique files above `main`. The branch's sole commit (`docs(readme): mark data-driven and architecture principles as planned`) is an ancestor of `main` — it was absorbed during Phase 1 development. `main` is 27 commits ahead. No UI changes, no missing dependencies, nothing to salvage. Branch deleted (local + remote).
+
 ---
 
 ## Branch Structure
@@ -97,4 +103,3 @@ Remaining risks:
 |--------|---------|--------|
 | `main` | Stable, production-ready | ✅ Current (Phase 1 merged) |
 | `phase-2-app-shell-routing` | App shell, routing, layout | 🟡 Active |
-| `redesign-cinematic` | Cinematic redesign exploration | ⚪ Paused |
