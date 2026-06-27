@@ -3,6 +3,9 @@ import { contact, iconMap } from '@/lib/data'
 
 type FormStatus = 'idle' | 'submitting' | 'success' | 'error'
 
+/**
+ * Renders the contact section with the contact form, status messages, and contact methods.
+ */
 export default function Contact() {
   const sectionRef = useRef<HTMLElement>(null)
   const submitTimeoutRef = useRef<number | null>(null)

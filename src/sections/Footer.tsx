@@ -1,6 +1,13 @@
 import { ArrowUpLeft } from 'lucide-react'
 import { site } from '@/lib/data'
 
+/**
+ * Renders the site footer with brand information, quick links, and social links.
+ *
+ * Smooth-scrolls to in-page anchors when quick links point to hash targets.
+ *
+ * @returns The footer content.
+ */
 export default function Footer() {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     if (href.startsWith('#')) {

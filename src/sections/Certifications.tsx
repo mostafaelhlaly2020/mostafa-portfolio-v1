@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { certifications, iconMap } from '@/lib/data'
 
+/**
+ * Renders the certifications section with animated certification cards.
+ */
 export default function Certifications() {
   const sectionRef = useRef<HTMLElement>(null)
 

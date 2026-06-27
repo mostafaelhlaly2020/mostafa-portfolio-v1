@@ -1,6 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { skills, iconMap } from '@/lib/data'
 
+/**
+ * Renders the Skills section with animated skill cards and header content.
+ */
 export default function Skills() {
   const sectionRef = useRef<HTMLElement>(null)
 
