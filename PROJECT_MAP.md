@@ -6,7 +6,7 @@ Single-page portfolio website for Mostafa El-Sayed — Digital Marketing & Real 
 
 ## Architecture
 
-```
+```text
 src/
 ├── data/          ← JSON data files (bilingual ar/en)
 ├── types/         ← Zod validation schemas (content.ts)
@@ -96,7 +96,7 @@ Remaining risks:
 | `phase-2-app-shell-routing` | App shell, routing, layout |
 | `redesign-cinematic` | Cinematic redesign exploration |
 
-### Phase Log â€” Phase 1 Finalization
+### Phase Log — Phase 1 Finalization
 - Contact form now uses real UI states
 - Removed fake success behavior
 - Unified icon usage

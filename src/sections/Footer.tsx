@@ -36,7 +36,7 @@ export default function Footer() {
               className="text-sm font-semibold mb-4 uppercase tracking-wider"
               style={{ color: 'rgba(240, 237, 232, 0.4)' }}
             >
-              {site.quickLinksLabel?.ar || 'روابط سريعة'}
+              {site.quickLinksLabel.ar}
             </h4>
             <ul className="space-y-3">
               {site.quickLinks.map((link) => (
@@ -60,7 +60,7 @@ export default function Footer() {
               className="text-sm font-semibold mb-4 uppercase tracking-wider"
               style={{ color: 'rgba(240, 237, 232, 0.4)' }}
             >
-              {site.socialLabel?.ar || 'تابعني'}
+              {site.socialLabel.ar}
             </h4>
             <ul className="space-y-3">
               {site.socialLinks.map((link) => (

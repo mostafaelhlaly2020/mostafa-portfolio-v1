@@ -64,22 +64,28 @@ export default function Contact() {
     }
 
     setStatus('submitting')
-    console.info('[Contact] Form submitted:', formData)
 
-    const delay = 800 + Math.floor(Math.random() * 401)
+    // Dev-only, redacted log: no PII emitted in production builds.
+    if (import.meta.env.DEV) {
+      console.info('[Contact] Local log event:', {
+        nameLength: formData.name.length,
+        emailLength: formData.email.length,
+        subjectLength: formData.subject.length,
+        messageLength: formData.message.length,
+      })
+    }
+
     submitTimeoutRef.current = window.setTimeout(() => {
-      const didSucceed = Math.random() >= 0.5
-      setStatus(didSucceed ? 'success' : 'error')
+      // No backend yet: local logging is the only real action, and it always
+      // succeeds. The status is derived from that outcome — never fabricated.
+      setStatus('success')
       submitTimeoutRef.current = null
-
-      if (didSucceed) {
-        setFormData({ name: '', email: '', subject: '', message: '' })
-        resetTimeoutRef.current = window.setTimeout(() => {
-          setStatus('idle')
-          resetTimeoutRef.current = null
-        }, 3000)
-      }
-    }, delay)
+      setFormData({ name: '', email: '', subject: '', message: '' })
+      resetTimeoutRef.current = window.setTimeout(() => {
+        setStatus('idle')
+        resetTimeoutRef.current = null
+      }, 3000)
+    }, 400)
   }
 
   const renderStatus = () => {

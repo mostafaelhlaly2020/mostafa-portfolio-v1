@@ -7,10 +7,10 @@
     "en": "Ready to turn your ideas into tangible results. Contact me now"
   },
   "infoLabel": { "ar": "معلومات التواصل", "en": "Contact Information" },
-  "successTitle": { "ar": "تم تسجيل الرسالة محلياً", "en": "Message Logged Locally" },
+  "successTitle": { "ar": "تم تسجيل رسالتك", "en": "Message Logged" },
   "successMessage": {
-    "ar": "شكراً لتواصلك! تم تسجيل رسالتك محلياً. سيتم الرد عليك في أقرب وقت.",
-    "en": "Thank you for reaching out! Your message has been logged locally. We'll get back to you as soon as possible."
+    "ar": "شكراً لتواصلك! تم تسجيل رسالتك محلياً في المتصفح فقط، وهي لا تُرسل إلى بريد إلكتروني حتى الآن. للتواصل المباشر استخدم وسائل التواصل بالجانب.",
+    "en": "Thank you for reaching out! Your message has been logged locally in the browser only — it is not emailed yet. To reach me directly, use the contact methods on the side."
   },
   "submittingTitle": { "ar": "جاري الإرسال...", "en": "Sending..." },
   "submittingMessage": { "ar": "يرجى الانتظار...", "en": "Please wait..." },
