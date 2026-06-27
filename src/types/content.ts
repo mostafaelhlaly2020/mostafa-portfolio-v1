@@ -72,6 +72,8 @@ export const SiteSchema = z.object({
       url: z.string(),
     })
   ),
+  quickLinksLabel: LocalizedString,
+  socialLabel: LocalizedString,
 })
 export type SiteData = z.infer<typeof SiteSchema>
 
@@ -205,6 +207,10 @@ export const ContactSchema = z.object({
   infoLabel: LocalizedString,
   successTitle: LocalizedString,
   successMessage: LocalizedString,
+  submittingTitle: LocalizedString,
+  submittingMessage: LocalizedString,
+  errorTitle: LocalizedString,
+  errorMessage: LocalizedString,
   submitButton: LocalizedString,
   formFields: z.array(FormField),
   methods: z.array(ContactMethod),
