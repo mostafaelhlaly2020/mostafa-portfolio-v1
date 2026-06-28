@@ -1,5 +1,5 @@
 # PROJECT_MAP.md
-## Mostafa Portfolio v1 — Crystal Glass CRM
+## Mostafa El-Sayed Portfolio v1
 **Project Root**: `E:/web site + n8n/portfolio web/mostafa-portfolio-v1/portfolio-v1`
 **Stack**: Vite + React 19 + TypeScript + Tailwind CSS + React Router v6
 **Branch**: `phase-2-app-shell-routing`
