@@ -40,5 +40,7 @@
     { "platform": "linkedin", "label": "LinkedIn", "url": "#" },
     { "platform": "tiktok", "label": "TikTok", "url": "#" },
     { "platform": "whatsapp", "label": "WhatsApp", "url": "https://wa.me/201118839776" }
-  ]
+  ],
+  "quickLinksLabel": { "ar": "روابط سريعة", "en": "Quick Links" },
+  "socialLabel": { "ar": "تابعني", "en": "Follow Me" }
 }
