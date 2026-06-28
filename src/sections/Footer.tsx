@@ -23,7 +23,7 @@ export default function Footer() {
               className="text-2xl font-bold mb-3"
               style={{ color: '#F0EDE8' }}
             >
-              مصطفى السيد
+              {site.name.ar}
             </h3>
             <p style={{ color: 'rgba(240, 237, 232, 0.6)' }}>
               {site.tagline.ar}
@@ -36,7 +36,7 @@ export default function Footer() {
               className="text-sm font-semibold mb-4 uppercase tracking-wider"
               style={{ color: 'rgba(240, 237, 232, 0.4)' }}
             >
-              روابط سريعة
+              {site.quickLinksLabel.ar}
             </h4>
             <ul className="space-y-3">
               {site.quickLinks.map((link) => (
@@ -60,7 +60,7 @@ export default function Footer() {
               className="text-sm font-semibold mb-4 uppercase tracking-wider"
               style={{ color: 'rgba(240, 237, 232, 0.4)' }}
             >
-              تابعني
+              {site.socialLabel.ar}
             </h4>
             <ul className="space-y-3">
               {site.socialLinks.map((link) => (
@@ -97,7 +97,7 @@ export default function Footer() {
             className="text-sm"
             style={{ color: 'rgba(240, 237, 232, 0.4)' }}
           >
-            &copy; 2025 مصطفى السيد. جميع الحقوق محفوظة.
+            {site.copyright.ar}
           </p>
           <p
             className="text-sm"
