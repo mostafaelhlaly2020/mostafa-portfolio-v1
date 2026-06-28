@@ -4,8 +4,8 @@
 **Stack**: Vite + React 19 + TypeScript + Tailwind CSS + React Router v6
 **Branch**: `phase-2-app-shell-routing`
 **Remote**: `origin/phase-2-app-shell-routing`
-**Last Updated**: 2026-06-26
-**Status**: Phase 1 — 100% COMPLETED · Phase 2 — 100% COMPLETED
+**Last Updated**: 2026-06-28
+**Status**: Phase 1 — 100% COMPLETED · Phase 2 — 100% COMPLETED · Phase A — 100% COMPLETED
 
 ---
 
@@ -14,6 +14,7 @@
 | Date | Audit | Status |
 |------|-------|--------|
 | 2026-06-23 | Passed | Phase 2 App Shell & Routing stable. Core components decoupled. Language Context safely isolated in separate Provider/Context modules. GSAP contexts sanitized. |
+| 2026-06-28 | Passed | Phase A Data Integrity Fixes complete. All Phase 2 regressions from Phase 1 resolved. |
 
 ---
 
@@ -106,7 +107,7 @@ mostafa-portfolio-v1/
 
 #### Layer 1 — Data Encoding & Repository Hygiene
 - **What**: Verified all `src/data/*.json` files for UTF-8 encoding purity
-- **Why**: Prevent ANSI high-ascii corruption ("ط®ط¨ظٹط± طھط³ظˆظٹظ‚") on Unix/Windows runtimes
+- **Why**: Prevent ANSI high-ascii corruption on Unix/Windows runtimes
 - **Verification**: `xxd` hex dump inspection confirmed zero encoding drift across all 9 JSON source files
 - **Result**: All Persian/Arabic text segments render as pristine standard UTF-8 glyphs
 
@@ -215,6 +216,59 @@ mostafa-portfolio-v1/
 - [x] PrivacyPolicyPage, TermsPage, CookiesPage (SEO meta via Helmet)
 - [x] Type-check ✅, lint ✅, build ✅ (all Exit 0)
 - [x] Branch pushed to `origin/phase-2-app-shell-routing`
+
+---
+
+## Phase A — Phase 2 Data Integrity Fixes (100% COMPLETED — 2026-06-28)
+
+### Context
+Phase 2 branch was based on an older `main` tip, missing 13 Phase 1 commits. Data integrity regressions from Phase 1 fixes were silently reintroduced. Phase A = surgical data-layer repairs only (zero UI changes, zero feature additions, zero refactoring).
+
+### Regressions Identified & Fixed
+
+| File | Regression | Fix Applied | Commit |
+|------|------------|-------------|--------|
+| `src/data/contact.json` | Missing 4 state fields: `submittingTitle`, `submittingMessage`, `errorTitle`, `errorMessage` | Added all 4 fields with honest bilingual copy | `688d8fe` |
+| `src/data/contact.json` | `successTitle` / `successMessage` misleading ("sent successfully") | Changed to honest copy: "Logged locally, not emailed" / "Your message has been logged locally in the browser only — it is not emailed yet." | `688d8fe` |
+| `src/data/contact.json` | Phone `href` masked (`tel:+201****9776`) | Unmasked to real value (`tel:+201118839776`) | `688d8fe` |
+| `src/data/site.json` | Missing `quickLinksLabel`, `socialLabel` (Footer.tsx required them) | Added both with bilingual labels | `6568a22` |
+| `src/types/content.ts` | ContactSchema missing 4 new fields | Added `submittingTitle`, `submittingMessage`, `errorTitle`, `errorMessage` (all **required** LocalizedString, no `?`) | `bbebc2f` |
+| `src/types/content.ts` | SiteSchema missing `quickLinksLabel`, `socialLabel` | Added both as required LocalizedString fields | `bbebc2f` |
+
+### Commits (Atomic, Strict Order)
+1. `688d8fe` — `fix(data): restore contact state fields, honest success copy, unmask phone href`
+2. `6568a22` — `fix(data): add quickLinksLabel and socialLabel to site.json`
+3. `bbebc2f` — `fix(schema): align ContactSchema and SiteSchema with data`
+
+### Verification Gates (All Passed)
+| Check | Status | Details |
+|-------|--------|---------|
+| `npm run type-check` | ✅ Exit 0 | Zero TypeScript errors |
+| `npm run lint` | ✅ Exit 0 | Zero ESLint errors |
+| `npm run build` | ✅ Exit 0 | Production build successful (510 kB JS, 88 kB CSS) |
+
+### Scope Boundaries Enforced
+- ✅ **Data only** — JSON + Zod schemas only
+- ✅ **Zero UI changes** — no component modifications
+- ✅ **Zero feature additions** — no new functionality
+- ✅ **Zero refactoring** — no code restructuring outside schema alignment
+- ✅ **Schema-first** — JSON edits before Schema edits, validated by `npm run type-check` after each
+
+### Phase A Hardening Audit (2026-06-28)
+Full re-audit of all Phase A files against production-grade spec. Findings:
+
+**Code files (contact.json, site.json, content.ts)**: ✅ ZERO DEVIATIONS
+- `successTitle` = "Message Logged" (NOT "Sent") ✅
+- `successMessage` = honest ("logged locally, not emailed") ✅
+- All 4 state fields present and populated ✅
+- Phone href = real number `tel:+201118839776` (no masking) ✅
+- `quickLinksLabel` / `socialLabel` present in site.json ✅
+- ContactSchema: 4 fields are **REQUIRED** (no `?`, no `.optional()`) ✅
+- SiteSchema: 2 fields are **REQUIRED** (no `?`, no `.optional()`) ✅
+
+**Documentation (PROJECT_MAP.md)**: 2 deviations found & corrected:
+1. Commit SHAs were placeholders → corrected to actual (`688d8fe`, `6568a22`, `bbebc2f`)
+2. ContactSchema fields described as optional (`?`) → corrected to **required** (matching actual code)
 
 ---
 
