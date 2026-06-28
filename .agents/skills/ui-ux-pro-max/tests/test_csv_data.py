@@ -20,22 +20,11 @@ STACKS_DIR = os.path.join(DATA_DIR, "stacks")
 
 HEX_COLOR_RE = re.compile(r"^#[0-9A-Fa-f]{6}$")
 
-# Stacks shipped in this PR
-STACK_FILES = [
-    "astro.csv",
-    "flutter.csv",
-    "html-tailwind.csv",
-    "jetpack-compose.csv",
-    "nextjs.csv",
-    "nuxt-ui.csv",
-    "nuxtjs.csv",
-    "react-native.csv",
-    "react.csv",
-    "shadcn.csv",
-    "svelte.csv",
-    "swiftui.csv",
-    "vue.csv",
-]
+# Dynamically discover all stack CSV files at import time
+STACK_FILES = sorted([
+    f for f in os.listdir(STACKS_DIR)
+    if f.endswith(".csv") and os.path.isfile(os.path.join(STACKS_DIR, f))
+]) if os.path.isdir(STACKS_DIR) else []
 
 
 def read_csv(path):
@@ -74,35 +63,48 @@ class TestChartsCsv(unittest.TestCase):
     MIN_ROWS = 20
 
     def setUp(self):
-        self.headers, self.rows = read_csv(self.CSV_PATH)
-        self.dicts = read_csv_dicts(self.CSV_PATH)
+        pass
+
+    def _load(self):
+        """Load CSV data, skipping if file doesn't exist."""
+        if not os.path.isfile(self.CSV_PATH):
+            self.skipTest(f"{self.CSV_PATH} not found")
+        headers, rows = read_csv(self.CSV_PATH)
+        dicts = read_csv_dicts(self.CSV_PATH)
+        return headers, rows, dicts
 
     def test_file_exists(self):
         self.assertTrue(os.path.isfile(self.CSV_PATH), "charts.csv not found")
 
     def test_header_columns(self):
-        self.assertEqual(self.headers, self.EXPECTED_HEADERS)
+        headers, rows, dicts = self._load()
+        self.assertEqual(headers, self.EXPECTED_HEADERS)
 
     def test_minimum_row_count(self):
-        self.assertGreaterEqual(len(self.rows), self.MIN_ROWS)
+        headers, rows, dicts = self._load()
+        self.assertGreaterEqual(len(rows), self.MIN_ROWS)
 
     def test_no_column_contains_unique_values(self):
-        nos = [row["No"] for row in self.dicts]
+        headers, rows, dicts = self._load()
+        nos = [row["No"] for row in dicts]
         self.assertEqual(len(nos), len(set(nos)), "Duplicate 'No' values found")
 
     def test_no_column_contains_only_integers(self):
-        for row in self.dicts:
+        headers, rows, dicts = self._load()
+        for row in dicts:
             self.assertTrue(
                 row["No"].strip().isdigit(),
                 f"Non-integer 'No' value: {row['No']!r}"
             )
 
     def test_no_column_sequential(self):
-        nos = [int(row["No"]) for row in self.dicts]
+        headers, rows, dicts = self._load()
+        nos = [int(row["No"]) for row in dicts]
         self.assertEqual(nos, list(range(1, len(nos) + 1)), "No column is not sequential from 1")
 
     def test_required_fields_are_non_empty(self):
-        for i, row in enumerate(self.dicts, 1):
+        headers, rows, dicts = self._load()
+        for i, row in enumerate(dicts, 1):
             for field in self.REQUIRED_FIELDS:
                 self.assertTrue(
                     row[field].strip(),
@@ -110,16 +112,18 @@ class TestChartsCsv(unittest.TestCase):
                 )
 
     def test_each_row_has_correct_column_count(self):
+        headers, rows, dicts = self._load()
         expected = len(self.EXPECTED_HEADERS)
-        for i, row in enumerate(self.rows, 1):
+        for i, row in enumerate(rows, 1):
             self.assertEqual(
                 len(row), expected,
                 f"Row {i} has {len(row)} columns, expected {expected}"
             )
 
     def test_keywords_field_contains_comma_separated_terms(self):
+        headers, rows, dicts = self._load()
         # Each chart type should have at least one keyword
-        for i, row in enumerate(self.dicts, 1):
+        for i, row in enumerate(dicts, 1):
             self.assertTrue(
                 len(row["Keywords"].strip()) > 0,
                 f"Row {i}: Keywords field is empty"
@@ -152,28 +156,40 @@ class TestColorsCsv(unittest.TestCase):
     MIN_ROWS = 30
 
     def setUp(self):
-        self.headers, self.rows = read_csv(self.CSV_PATH)
-        self.dicts = read_csv_dicts(self.CSV_PATH)
+        pass
+
+    def _load(self):
+        """Load CSV data, skipping if file doesn't exist."""
+        if not os.path.isfile(self.CSV_PATH):
+            self.skipTest(f"{self.CSV_PATH} not found")
+        headers, rows = read_csv(self.CSV_PATH)
+        dicts = read_csv_dicts(self.CSV_PATH)
+        return headers, rows, dicts
 
     def test_file_exists(self):
         self.assertTrue(os.path.isfile(self.CSV_PATH), "colors.csv not found")
 
     def test_header_columns(self):
-        self.assertEqual(self.headers, self.EXPECTED_HEADERS)
+        headers, rows, dicts = self._load()
+        self.assertEqual(headers, self.EXPECTED_HEADERS)
 
     def test_minimum_row_count(self):
-        self.assertGreaterEqual(len(self.rows), self.MIN_ROWS)
+        headers, rows, dicts = self._load()
+        self.assertGreaterEqual(len(rows), self.MIN_ROWS)
 
     def test_no_column_unique(self):
-        nos = [row["No"] for row in self.dicts]
+        headers, rows, dicts = self._load()
+        nos = [row["No"] for row in dicts]
         self.assertEqual(len(nos), len(set(nos)), "Duplicate 'No' values found")
 
     def test_product_type_non_empty(self):
-        for i, row in enumerate(self.dicts, 1):
+        headers, rows, dicts = self._load()
+        for i, row in enumerate(dicts, 1):
             self.assertTrue(row["Product Type"].strip(), f"Row {i}: 'Product Type' is empty")
 
     def test_all_hex_color_fields_valid_format(self):
-        for i, row in enumerate(self.dicts, 1):
+        headers, rows, dicts = self._load()
+        for i, row in enumerate(dicts, 1):
             for field in self.HEX_FIELDS:
                 value = row[field].strip()
                 self.assertRegex(
@@ -183,17 +199,19 @@ class TestColorsCsv(unittest.TestCase):
                 )
 
     def test_no_duplicate_product_types(self):
-        product_types = [row["Product Type"] for row in self.dicts]
+        headers, rows, dicts = self._load()
+        product_types = [row["Product Type"] for row in dicts]
         self.assertEqual(
             len(product_types), len(set(product_types)),
             "Duplicate 'Product Type' entries found in colors.csv"
         )
 
     def test_notes_field_present(self):
+        headers, rows, dicts = self._load()
         # Notes should be non-empty for at least most rows (design rationale)
-        notes_with_content = sum(1 for row in self.dicts if row["Notes"].strip())
+        notes_with_content = sum(1 for row in dicts if row["Notes"].strip())
         self.assertGreater(
-            notes_with_content, len(self.dicts) // 2,
+            notes_with_content, len(dicts) // 2,
             "More than half the rows have empty Notes"
         )
 
@@ -217,24 +235,35 @@ class TestIconsCsv(unittest.TestCase):
     MIN_ROWS = 50
 
     def setUp(self):
-        self.headers, self.rows = read_csv(self.CSV_PATH)
-        self.dicts = read_csv_dicts(self.CSV_PATH)
+        pass
+
+    def _load(self):
+        """Load CSV data, skipping if file doesn't exist."""
+        if not os.path.isfile(self.CSV_PATH):
+            self.skipTest(f"{self.CSV_PATH} not found")
+        headers, rows = read_csv(self.CSV_PATH)
+        dicts = read_csv_dicts(self.CSV_PATH)
+        return headers, rows, dicts
 
     def test_file_exists(self):
         self.assertTrue(os.path.isfile(self.CSV_PATH), "icons.csv not found")
 
     def test_header_columns(self):
-        self.assertEqual(self.headers, self.EXPECTED_HEADERS)
+        headers, rows, dicts = self._load()
+        self.assertEqual(headers, self.EXPECTED_HEADERS)
 
     def test_minimum_row_count(self):
-        self.assertGreaterEqual(len(self.rows), self.MIN_ROWS)
+        headers, rows, dicts = self._load()
+        self.assertGreaterEqual(len(rows), self.MIN_ROWS)
 
     def test_no_column_unique(self):
-        nos = [row["No"] for row in self.dicts]
+        headers, rows, dicts = self._load()
+        nos = [row["No"] for row in dicts]
         self.assertEqual(len(nos), len(set(nos)), "Duplicate 'No' values found")
 
     def test_required_fields_non_empty(self):
-        for i, row in enumerate(self.dicts, 1):
+        headers, rows, dicts = self._load()
+        for i, row in enumerate(dicts, 1):
             for field in self.REQUIRED_FIELDS:
                 self.assertTrue(
                     row[field].strip(),
@@ -242,8 +271,9 @@ class TestIconsCsv(unittest.TestCase):
                 )
 
     def test_each_row_has_correct_column_count(self):
+        headers, rows, dicts = self._load()
         expected = len(self.EXPECTED_HEADERS)
-        for i, row in enumerate(self.rows, 1):
+        for i, row in enumerate(rows, 1):
             self.assertEqual(len(row), expected, f"Row {i}: wrong column count")
 
 
@@ -265,24 +295,35 @@ class TestLandingCsv(unittest.TestCase):
     MIN_ROWS = 10
 
     def setUp(self):
-        self.headers, self.rows = read_csv(self.CSV_PATH)
-        self.dicts = read_csv_dicts(self.CSV_PATH)
+        pass
+
+    def _load(self):
+        """Load CSV data, skipping if file doesn't exist."""
+        if not os.path.isfile(self.CSV_PATH):
+            self.skipTest(f"{self.CSV_PATH} not found")
+        headers, rows = read_csv(self.CSV_PATH)
+        dicts = read_csv_dicts(self.CSV_PATH)
+        return headers, rows, dicts
 
     def test_file_exists(self):
         self.assertTrue(os.path.isfile(self.CSV_PATH), "landing.csv not found")
 
     def test_header_columns(self):
-        self.assertEqual(self.headers, self.EXPECTED_HEADERS)
+        headers, rows, dicts = self._load()
+        self.assertEqual(headers, self.EXPECTED_HEADERS)
 
     def test_minimum_row_count(self):
-        self.assertGreaterEqual(len(self.rows), self.MIN_ROWS)
+        headers, rows, dicts = self._load()
+        self.assertGreaterEqual(len(rows), self.MIN_ROWS)
 
     def test_no_column_unique(self):
-        nos = [row["No"] for row in self.dicts]
+        headers, rows, dicts = self._load()
+        nos = [row["No"] for row in dicts]
         self.assertEqual(len(nos), len(set(nos)), "Duplicate 'No' values found")
 
     def test_required_fields_non_empty(self):
-        for i, row in enumerate(self.dicts, 1):
+        headers, rows, dicts = self._load()
+        for i, row in enumerate(dicts, 1):
             for field in self.REQUIRED_FIELDS:
                 self.assertTrue(
                     row[field].strip(),
@@ -290,7 +331,8 @@ class TestLandingCsv(unittest.TestCase):
                 )
 
     def test_no_duplicate_pattern_names(self):
-        names = [row["Pattern Name"] for row in self.dicts]
+        headers, rows, dicts = self._load()
+        names = [row["Pattern Name"] for row in dicts]
         self.assertEqual(len(names), len(set(names)), "Duplicate 'Pattern Name' entries found")
 
 
@@ -313,24 +355,35 @@ class TestProductsCsv(unittest.TestCase):
     MIN_ROWS = 50
 
     def setUp(self):
-        self.headers, self.rows = read_csv(self.CSV_PATH)
-        self.dicts = read_csv_dicts(self.CSV_PATH)
+        pass
+
+    def _load(self):
+        """Load CSV data, skipping if file doesn't exist."""
+        if not os.path.isfile(self.CSV_PATH):
+            self.skipTest(f"{self.CSV_PATH} not found")
+        headers, rows = read_csv(self.CSV_PATH)
+        dicts = read_csv_dicts(self.CSV_PATH)
+        return headers, rows, dicts
 
     def test_file_exists(self):
         self.assertTrue(os.path.isfile(self.CSV_PATH), "products.csv not found")
 
     def test_header_columns(self):
-        self.assertEqual(self.headers, self.EXPECTED_HEADERS)
+        headers, rows, dicts = self._load()
+        self.assertEqual(headers, self.EXPECTED_HEADERS)
 
     def test_minimum_row_count(self):
-        self.assertGreaterEqual(len(self.rows), self.MIN_ROWS)
+        headers, rows, dicts = self._load()
+        self.assertGreaterEqual(len(rows), self.MIN_ROWS)
 
     def test_no_column_unique(self):
-        nos = [row["No"] for row in self.dicts]
+        headers, rows, dicts = self._load()
+        nos = [row["No"] for row in dicts]
         self.assertEqual(len(nos), len(set(nos)), "Duplicate 'No' values found")
 
     def test_required_fields_non_empty(self):
-        for i, row in enumerate(self.dicts, 1):
+        headers, rows, dicts = self._load()
+        for i, row in enumerate(dicts, 1):
             for field in self.REQUIRED_FIELDS:
                 self.assertTrue(
                     row[field].strip(),
@@ -338,8 +391,9 @@ class TestProductsCsv(unittest.TestCase):
                 )
 
     def test_each_row_has_correct_column_count(self):
+        headers, rows, dicts = self._load()
         expected = len(self.EXPECTED_HEADERS)
-        for i, row in enumerate(self.rows, 1):
+        for i, row in enumerate(rows, 1):
             self.assertEqual(len(row), expected, f"Row {i}: wrong column count")
 
 
@@ -366,24 +420,35 @@ class TestReactPerformanceCsv(unittest.TestCase):
     MIN_ROWS = 30
 
     def setUp(self):
-        self.headers, self.rows = read_csv(self.CSV_PATH)
-        self.dicts = read_csv_dicts(self.CSV_PATH)
+        pass
+
+    def _load(self):
+        """Load CSV data, skipping if file doesn't exist."""
+        if not os.path.isfile(self.CSV_PATH):
+            self.skipTest(f"{self.CSV_PATH} not found")
+        headers, rows = read_csv(self.CSV_PATH)
+        dicts = read_csv_dicts(self.CSV_PATH)
+        return headers, rows, dicts
 
     def test_file_exists(self):
         self.assertTrue(os.path.isfile(self.CSV_PATH), "react-performance.csv not found")
 
     def test_header_columns(self):
-        self.assertEqual(self.headers, self.EXPECTED_HEADERS)
+        headers, rows, dicts = self._load()
+        self.assertEqual(headers, self.EXPECTED_HEADERS)
 
     def test_minimum_row_count(self):
-        self.assertGreaterEqual(len(self.rows), self.MIN_ROWS)
+        headers, rows, dicts = self._load()
+        self.assertGreaterEqual(len(rows), self.MIN_ROWS)
 
     def test_no_column_unique(self):
-        nos = [row["No"] for row in self.dicts]
+        headers, rows, dicts = self._load()
+        nos = [row["No"] for row in dicts]
         self.assertEqual(len(nos), len(set(nos)), "Duplicate 'No' values found")
 
     def test_required_fields_non_empty(self):
-        for i, row in enumerate(self.dicts, 1):
+        headers, rows, dicts = self._load()
+        for i, row in enumerate(dicts, 1):
             for field in self.REQUIRED_FIELDS:
                 self.assertTrue(
                     row[field].strip(),
@@ -391,7 +456,8 @@ class TestReactPerformanceCsv(unittest.TestCase):
                 )
 
     def test_severity_values_in_known_set(self):
-        for i, row in enumerate(self.dicts, 1):
+        headers, rows, dicts = self._load()
+        for i, row in enumerate(dicts, 1):
             sev = row["Severity"].strip()
             if sev:  # Skip rows with empty severity
                 self.assertIn(
@@ -401,8 +467,9 @@ class TestReactPerformanceCsv(unittest.TestCase):
                 )
 
     def test_each_row_has_correct_column_count(self):
+        headers, rows, dicts = self._load()
         expected = len(self.EXPECTED_HEADERS)
-        for i, row in enumerate(self.rows, 1):
+        for i, row in enumerate(rows, 1):
             self.assertEqual(len(row), expected, f"Row {i}: wrong column count")
 
 

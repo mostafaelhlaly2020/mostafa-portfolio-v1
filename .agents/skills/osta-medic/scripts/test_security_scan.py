@@ -835,11 +835,16 @@ class TestScanFile(unittest.TestCase):
             os.unlink(path)
 
     def test_skips_file_larger_than_max(self):
-        path = self._make_temp_file("api_key = 'realvalue1234'\n" * 100000)
+        # Create a file deterministically larger than MAX_FILE_BYTES
+        fd, path = tempfile.mkstemp(suffix=".py")
         try:
-            if os.path.getsize(path) > MAX_FILE_BYTES:
-                hits = scan_file(path, CHECKS)
-                self.assertEqual(hits, [])
+            with os.fdopen(fd, "wb") as f:
+                f.write(b"x" * (MAX_FILE_BYTES + 1))
+            # Verify the file is actually larger than MAX_FILE_BYTES
+            self.assertTrue(os.path.getsize(path) > MAX_FILE_BYTES)
+            # scan_file should skip it and return empty list
+            hits = scan_file(path, CHECKS)
+            self.assertEqual(hits, [])
         finally:
             os.unlink(path)
 
