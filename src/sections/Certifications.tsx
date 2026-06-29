@@ -68,7 +68,7 @@ export default function Certifications() {
         {/* Certifications Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {certifications.items.map((cert, index) => {
-            const Icon = iconMap[cert.icon] || iconMap.TrendingUp
+            const Icon = iconMap[cert.icon] ?? iconMap.TrendingUp
             return (
               <div
                 key={index}

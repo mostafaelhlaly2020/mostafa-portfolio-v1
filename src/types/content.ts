@@ -173,13 +173,23 @@ export const TestimonialsSchema = z.object({
 })
 export type TestimonialsData = z.infer<typeof TestimonialsSchema>
 
+const ProjectItemSchema = z.object({
+  id: z.string(),
+  title: LocalizedString,
+  description: LocalizedString,
+  image: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  url: z.string().url().optional(),
+})
+export type ProjectItem = z.infer<typeof ProjectItemSchema>
+
 export const ProjectsSchema = z.object({
   label: LocalizedString,
   heading: LocalizedString,
   highlight: LocalizedString,
   subtitle: LocalizedString,
   emptyMessage: LocalizedString,
-  items: z.array(z.unknown()),
+  items: z.array(ProjectItemSchema),
 })
 export type ProjectsData = z.infer<typeof ProjectsSchema>
 

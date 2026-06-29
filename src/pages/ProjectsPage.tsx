@@ -1,18 +1,13 @@
 import { useParams, Link } from 'react-router';
 import { SectionErrorBoundary } from '@/components/layout/SectionErrorBoundary';
 import { projects } from '@/lib/data';
-
-interface ProjectItem {
-  id: string;
-  title: { ar: string; en: string };
-  description: { ar: string; en: string };
-}
+import type { ProjectItem } from '@/types/content';
 
 export default function ProjectsPage() {
   const { slug } = useParams();
 
   if (slug) {
-    const project = (projects.items as unknown as ProjectItem[]).find((p) => p.id === slug);
+    const project: ProjectItem | undefined = projects.items.find((p) => p.id === slug);
     if (!project) return <div className="text-center py-16">Project not found</div>;
 
     return (

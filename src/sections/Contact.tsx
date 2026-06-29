@@ -369,7 +369,7 @@ export default function Contact() {
 
             <div className="space-y-4">
               {contact.methods.map((item, index) => {
-                const Icon = iconMap[item.icon] || iconMap.TrendingUp
+                const Icon = iconMap[item.icon] ?? iconMap.TrendingUp
                 return (
                   <a
                     key={index}
