@@ -34,14 +34,6 @@
     { "label": { "ar": "آراء العملاء", "en": "Testimonials" }, "href": "#testimonials" },
     { "label": { "ar": "التواصل", "en": "Contact" }, "href": "#contact" }
   ],
-  "quickLinksLabel": {
-    "ar": "روابط سريعة",
-    "en": "Quick Links"
-  },
-  "socialLabel": {
-    "ar": "تابعني",
-    "en": "Follow Me"
-  },
   "socialLinks": [
     { "platform": "facebook", "label": "Facebook", "url": "#" },
     { "platform": "instagram", "label": "Instagram", "url": "#" },
