@@ -263,7 +263,7 @@ Full re-audit of all Phase A files against production-grade spec. Findings:
 - `successTitle` = "Message Logged" (NOT "Sent") ✅
 - `successMessage` = honest ("logged locally, not emailed") ✅
 - All 4 state fields present and populated ✅
-- Phone href = real number `tel:+201****9776` (no masking) ✅
+- Phone href = real number `tel:+201118839776` (no masking) ✅
 - `quickLinksLabel` / `socialLabel` present in site.json ✅
 - ContactSchema: 4 fields are **REQUIRED** (no `?`, no `.optional()`) ✅
 - SiteSchema: 2 fields are **REQUIRED** (no `?`, no `.optional()`) ✅
