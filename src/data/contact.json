@@ -15,7 +15,10 @@
   "submittingTitle": { "ar": "جاري الإرسال...", "en": "Sending..." },
   "submittingMessage": { "ar": "يرجى الانتظار...", "en": "Please wait..." },
   "errorTitle": { "ar": "حدث خطأ", "en": "Error" },
-  "errorMessage": { "ar": "فشل في تسجيل الرسالة. يرجى المحاولة مرة أخرى.", "en": "Failed to log message. Please try again." },
+  "errorMessage": {
+    "ar": "فشل في تسجيل الرسالة. يرجى المحاولة مرة أخرى.",
+    "en": "Failed to log message. Please try again."
+  },
   "submitButton": { "ar": "إرسال الرسالة", "en": "Send Message" },
   "formFields": [
     {
