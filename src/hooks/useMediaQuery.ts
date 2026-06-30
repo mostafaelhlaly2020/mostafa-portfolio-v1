@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useSyncExternalStore } from 'react'
 
 /**
  * Reactive media query hook. Returns true when the query matches.
@@ -8,25 +8,14 @@ import { useState, useEffect } from 'react'
  * const isMobile = useMediaQuery('(max-width: 768px)')
  */
 export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.matchMedia(query).matches
-    }
-    return false
-  })
-
-  useEffect(() => {
+  const subscribe = (callback: () => void) => {
     const mql = window.matchMedia(query)
+    mql.addEventListener('change', callback)
+    return () => mql.removeEventListener('change', callback)
+  }
 
-    const handleChange = (e: MediaQueryListEvent) => {
-      setMatches(e.matches)
-    }
+  const getSnapshot = () => window.matchMedia(query).matches
+  const getServerSnapshot = () => false
 
-    setMatches(mql.matches)
-    mql.addEventListener('change', handleChange)
-
-    return () => mql.removeEventListener('change', handleChange)
-  }, [query])
-
-  return matches
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useSyncExternalStore } from 'react'
 
 /**
  * Detects the user's prefers-reduced-motion setting.
@@ -7,25 +7,14 @@ import { useState, useEffect } from 'react'
  * animations when it returns true.
  */
 export function useReducedMotion(): boolean {
-  const [prefersReduced, setPrefersReduced] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    }
-    return false
-  })
-
-  useEffect(() => {
+  const subscribe = (callback: () => void) => {
     const mql = window.matchMedia('(prefers-reduced-motion: reduce)')
+    mql.addEventListener('change', callback)
+    return () => mql.removeEventListener('change', callback)
+  }
 
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReduced(e.matches)
-    }
+  const getSnapshot = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const getServerSnapshot = () => false
 
-    setPrefersReduced(mql.matches)
-    mql.addEventListener('change', handleChange)
-
-    return () => mql.removeEventListener('change', handleChange)
-  }, [])
-
-  return prefersReduced
+  return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
 }
