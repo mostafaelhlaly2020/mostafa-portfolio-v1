@@ -298,9 +298,9 @@ Phase A locked data-layer integrity. Phase B ensures the UI layer correctly cons
 |------|-------|-----|--------|
 | `src/types/content.ts` | `ProjectsSchema.items` typed as `z.array(z.unknown())` | Added `ProjectItemSchema` (3 required + 3 optional fields), updated `ProjectsSchema.items` | `ac6f505` |
 | `src/pages/ProjectsPage.tsx` | Unsafe `as unknown as ProjectItem[]` cast | Removed cast, imported `ProjectItem` type from `content.ts` | `ac6f505` |
-| `src/sections/Skills.tsx` | Icon fallback uses `\|\|` (catches all falsy) | Changed to `??` (nullish coalescing — only catches null/undefined) | `7c0a980` |
-| `src/sections/Certifications.tsx` | Icon fallback uses `\|\|` | Changed to `??` | `7c0a980` |
-| `src/sections/Contact.tsx` | Icon fallback uses `\|\|` | Changed to `??` | `7c0a980` |
+| `src/sections/Skills.tsx` | Icon fallback uses `\|\|` (semantic improvement — functionally equivalent for LucideIcon type) | Changed to `??` (nullish coalescing — semantically correct for map lookup) | `7c0a980` |
+| `src/sections/Certifications.tsx` | Icon fallback uses `\|\|` (semantic improvement) | Changed to `??` | `7c0a980` |
+| `src/sections/Contact.tsx` | Icon fallback uses `\|\|` (semantic improvement) | Changed to `??` | `7c0a980` |
 | `src/pages/PrivacyPolicyPage.tsx` | `<title>` uses `seo.metaDescription.ar` (semantic misuse) | Changed to `site.name.ar` (brand name) | `01656fc` |
 | `src/pages/TermsPage.tsx` | Same SEO title misuse | Same fix | `01656fc` |
 | `src/pages/CookiesPage.tsx` | Same SEO title misuse | Same fix | `01656fc` |
@@ -332,7 +332,8 @@ const ProjectItemSchema = z.object({
 ### Scope Boundaries Enforced
 - ✅ **1 Enhancement** — `ProjectItemSchema` added with future-proof optional fields
 - ✅ **1 Refactor** — Unsafe `as unknown as` cast removed, proper typed access
-- ✅ **6 Fixes** — Icon fallbacks (3) + SEO titles (3)
+- ✅ **3 Semantic Improvements** — Icon fallbacks `||` → `??` (functionally equivalent for `LucideIcon` type, but `??` is the correct operator for nullish map lookup)
+- ✅ **3 Fixes** — SEO titles corrected from `metaDescription` to `site.name`
 - ✅ **Zero new features**
 - ✅ **Zero UI/style/layout/animation changes**
 - ✅ **Cinematic Bridge constraints preserved** — no DOM structure, class name, or inline style modifications
