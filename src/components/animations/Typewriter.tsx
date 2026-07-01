@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useState, useLayoutEffect } from 'react'
 import gsap from 'gsap'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
@@ -18,7 +18,7 @@ interface TypewriterProps {
 /**
  * Character-by-character text reveal using GSAP.
  * Does NOT require SplitType — uses state-based character reveal.
- * Respects prefers-reduced-motion: shows text instantly.
+ * Respects prefers-reduced-motion: shows text instantly via derived state.
  * GSAP context wrapped, ctx.revert() on unmount.
  */
 export default function Typewriter({
@@ -30,14 +30,14 @@ export default function Typewriter({
 }: TypewriterProps) {
   const prefersReduced = useReducedMotion()
   const containerRef = useRef<HTMLSpanElement>(null)
-  const [visibleCount, setVisibleCount] = useState(prefersReduced ? text.length : 0)
+  const [animatedCount, setAnimatedCount] = useState(0)
   const ctxRef = useRef<gsap.Context | null>(null)
 
-  useEffect(() => {
-    if (prefersReduced) {
-      setVisibleCount(text.length)
-      return
-    }
+  // When reduced motion is active, show full text immediately via derived value
+  const visibleCount = prefersReduced ? text.length : animatedCount
+
+  useLayoutEffect(() => {
+    if (prefersReduced) return
 
     ctxRef.current = gsap.context(() => {
       const proxy = { count: 0 }
@@ -48,10 +48,10 @@ export default function Typewriter({
         delay,
         ease: 'none',
         onUpdate: () => {
-          setVisibleCount(Math.round(proxy.count))
+          setAnimatedCount(Math.round(proxy.count))
         },
         onComplete: () => {
-          setVisibleCount(text.length)
+          setAnimatedCount(text.length)
           onComplete?.()
         },
       })
@@ -59,6 +59,7 @@ export default function Typewriter({
 
     return () => {
       ctxRef.current?.revert()
+      setAnimatedCount(0)
     }
   }, [text, speed, delay, prefersReduced]) // eslint-disable-line react-hooks/exhaustive-deps -- onComplete intentionally excluded to prevent animation restart
 

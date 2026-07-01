@@ -42,7 +42,7 @@ describe('ZoomParallax', () => {
   it('renders its children', () => {
     const { getByText } = render(
       <ZoomParallax>
-        <img alt="parallax" />
+        <img alt="parallax" src="https://example.com/photo.jpg" />
         <span>caption</span>
       </ZoomParallax>
     )
