@@ -73,7 +73,7 @@ export default function KineticMarquee({
         .slice(originalChildren.length)
         .forEach((clone) => clone.remove())
     }
-  }, [speed, direction, prefersReduced])
+  }, [speed, direction, prefersReduced, children])
 
   if (prefersReduced) {
     return (

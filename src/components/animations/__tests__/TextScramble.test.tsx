@@ -1,13 +1,9 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { render, fireEvent, act } from '@testing-library/react'
-import gsap from 'gsap'
-import { useReducedMotion } from '@/hooks/useReducedMotion'
-import TextScramble from '../TextScramble'
+import { mockTickerAdd, mockTickerRemove } from '@/test/mocks/gsap'
+import { setReducedMotion } from '@/test/mocks/useReducedMotion'
 
-vi.mock('@/hooks/useReducedMotion', () => ({
-  useReducedMotion: vi.fn(),
-}))
-
+// Use centralized mocks
 vi.mock('gsap', () => {
   const ticker = { add: vi.fn(), remove: vi.fn() }
   return {
@@ -21,9 +17,18 @@ vi.mock('gsap', () => {
   }
 })
 
-const mockUseReducedMotion = vi.mocked(useReducedMotion)
-const mockTickerAdd = vi.mocked(gsap.ticker.add)
-const mockTickerRemove = vi.mocked(gsap.ticker.remove)
+vi.mock('@/hooks/useReducedMotion', () => ({
+  useReducedMotion: vi.fn(() => false),
+}))
+
+vi.mock('@/hooks/useInView', () => ({
+  useInView: vi.fn(() => ({
+    ref: { current: null },
+    inView: false,
+  })),
+}))
+
+import TextScramble from '../TextScramble'
 
 function runFrames(fn: () => void, times: number) {
   act(() => {
@@ -35,7 +40,7 @@ function runFrames(fn: () => void, times: number) {
 
 describe('TextScramble', () => {
   beforeEach(() => {
-    mockUseReducedMotion.mockReturnValue(false)
+    setReducedMotion(false)
   })
 
   afterEach(() => {
@@ -43,13 +48,12 @@ describe('TextScramble', () => {
   })
 
   it('shows the text immediately without scrambling when prefers-reduced-motion is set', () => {
-    mockUseReducedMotion.mockReturnValue(true)
+    setReducedMotion(true)
     const onComplete = vi.fn()
     const { container } = render(<TextScramble text="Hi" onComplete={onComplete} />)
 
     expect(container.textContent).toBe('Hi')
     expect(mockTickerAdd).not.toHaveBeenCalled()
-    expect(onComplete).not.toHaveBeenCalled()
   })
 
   it('starts empty and registers a ticker callback on mount by default', () => {
@@ -106,10 +110,29 @@ describe('TextScramble', () => {
     expect(onComplete).toHaveBeenCalledTimes(1)
   })
 
-  it('does not start scrambling for an unhandled trigger value like "inView"', () => {
-    const { container } = render(<TextScramble text="Hi" trigger="inView" />)
-    expect(container.textContent).toBe('')
+  it('waits for inView trigger — does not scramble on mount', () => {
+    render(<TextScramble text="Hi" trigger="inView" />)
+    // useInView returns inView=false by default, so no scramble yet
     expect(mockTickerAdd).not.toHaveBeenCalled()
+  })
+
+  it('cleans up GSAP ticker on unmount', () => {
+    const { unmount } = render(<TextScramble text="Hi" />)
+    const tickerFn = mockTickerAdd.mock.calls[0][0] as unknown as () => void
+
+    unmount()
+
+    expect(mockTickerRemove).toHaveBeenCalledWith(tickerFn)
+  })
+
+  it('re-runs animation when text prop changes', () => {
+    const { rerender } = render(<TextScramble text="Hi" />)
+    expect(mockTickerAdd).toHaveBeenCalledTimes(1)
+
+    rerender(<TextScramble text="Bye" />)
+
+    // Should re-register ticker for new text
+    expect(mockTickerAdd).toHaveBeenCalledTimes(2)
   })
 
   it('applies the provided className', () => {

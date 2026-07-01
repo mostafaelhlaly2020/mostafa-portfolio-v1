@@ -21,7 +21,7 @@ const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#
  * Characters randomly shuffle before resolving to the target text.
  * Supports mount, hover, and inView trigger modes.
  * Respects prefers-reduced-motion: shows text instantly.
- * GSAP ticker cleaned up on unmount and between triggers.
+ * GSAP ticker cleaned up on unmount, between triggers, and on text changes.
  */
 export default function TextScramble({
   text,
@@ -34,11 +34,19 @@ export default function TextScramble({
   const containerRef = useRef<HTMLSpanElement>(null)
   const [displayText, setDisplayText] = useState(prefersReduced ? text : '')
   const [isHovering, setIsHovering] = useState(false)
+  // Reset hasTriggered when text changes so animation re-runs for the new text
   const hasTriggered = useRef(false)
   const tickerRef = useRef<(() => void) | null>(null)
+  const prevTextRef = useRef(text)
+
+  // FIX C: Reset hasTriggered when text changes so animation re-runs
+  if (prevTextRef.current !== text) {
+    prevTextRef.current = text
+    hasTriggered.current = false
+  }
 
   const scramble = useCallback(() => {
-    // Clean up any previous ticker
+    // FIX A: Clean up any previous ticker to prevent stacking/orphan callbacks
     if (tickerRef.current) {
       gsap.ticker.remove(tickerRef.current)
       tickerRef.current = null
@@ -79,11 +87,12 @@ export default function TextScramble({
     gsap.ticker.add(ticker)
   }, [text, prefersReduced, onComplete])
 
-  // Cleanup ticker on unmount
+  // FIX A: Cleanup ticker on unmount — guaranteed no orphan callbacks
   useEffect(() => {
     return () => {
       if (tickerRef.current) {
         gsap.ticker.remove(tickerRef.current)
+        tickerRef.current = null
       }
     }
   }, [])
@@ -105,11 +114,13 @@ export default function TextScramble({
   useEffect(() => {
     if (prefersReduced || trigger !== 'hover') return
     if (isHovering) {
+      hasTriggered.current = false
       scramble()
     }
   }, [isHovering, trigger, prefersReduced, scramble])
 
-  // inView trigger
+  // FIX B: inView trigger — observer re-attaches via useInView when trigger changes
+  // useInView manages its own IntersectionObserver lifecycle with proper cleanup
   useEffect(() => {
     if (prefersReduced || trigger !== 'inView') return
     if (inView && !hasTriggered.current) {
@@ -118,7 +129,8 @@ export default function TextScramble({
     }
   }, [inView, trigger, prefersReduced, scramble])
 
-  // Combine refs for inView + container
+  // FIX B: Combine refs properly — inViewRef attaches when trigger=inView
+  // Using callback ref so both containerRef and inViewRef are set correctly
   const setRefs = useCallback(
     (node: HTMLSpanElement | null) => {
       (containerRef as React.MutableRefObject<HTMLSpanElement | null>).current = node

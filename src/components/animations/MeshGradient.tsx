@@ -36,7 +36,7 @@ export default function MeshGradient({
     : {
         background: `linear-gradient(135deg, ${safeColors.join(', ')})`,
         backgroundSize: '400% 400%',
-        animation: `meshGradient ${speed}s ease infinite`,
+        animation: `mesh-gradient ${speed}s ease infinite`,
       }
 
   return (
