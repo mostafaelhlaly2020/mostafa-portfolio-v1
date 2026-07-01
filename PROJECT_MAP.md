@@ -2,10 +2,10 @@
 ## Mostafa El-Sayed Portfolio v1
 **Project Root**: `E:/web site + n8n/portfolio web/mostafa-portfolio-v1/portfolio-v1`
 **Stack**: Vite + React 19 + TypeScript + Tailwind CSS + React Router v6
-**Branch**: `main`
-**Remote**: `origin/main`
-**Last Updated**: 2026-06-28
-**Status**: ✅ Phase 1 — Merged to main · ✅ Phase 2 — Merged to main (PR #3) · ✅ Phase A — Data Integrity Locked · ✅ Phase B — UI + Type Safety + SEO Integrity
+**Branch**: `phase-c-cinematic-foundation`
+**Remote**: `origin/phase-c-cinematic-foundation`
+**Last Updated**: 2026-07-01
+**Status**: ✅ Phase 1 — Merged to main · ✅ Phase 2 — Merged to main (PR #3) · ✅ Phase A — Data Integrity Locked · ✅ Phase B — UI + Type Safety + SEO Integrity · 🔀 Phase C-C0 — Cinematic Foundation (PR #9 — Awaiting User Approval)
 
 ---
 
@@ -19,21 +19,34 @@
 
 ---
 
-## Directory Structure (Post-Phase 2)
+## Directory Structure (Post-Phase C-C0)
 ```
 mostafa-portfolio-v1/
 ├── src/
 │   ├── app/                      # Legacy (Next.js 14 App Router — unused, retained for reference)
 │   ├── components/
-│   │   └── layout/
-│   │       ├── Layout.tsx              # ← NEW: Global layout wrapper (<Outlet> + Preloader + BottomNav + Footer + dir/lang sync)
-│   │       └── SectionErrorBoundary.tsx # ← NEW: Per-section fault isolation with skeleton fallback
+│   │   ├── layout/
+│   │   │   ├── Layout.tsx              # Global layout wrapper (<Outlet> + Preloader + BottomNav + Footer + dir/lang sync)
+│   │   │   └── SectionErrorBoundary.tsx # Per-section fault isolation with skeleton fallback
+│   │   └── animations/                 # ← NEW (Phase C-C0): 8 isolated animation wrapper components
+│   │       ├── KineticMarquee.tsx      # Infinite horizontal scroll marquee (GSAP)
+│   │       ├── MeshGradient.tsx        # Animated gradient mesh background (CSS keyframes)
+│   │       ├── SpotlightBorder.tsx     # Interactive spotlight cursor border (CSS custom props)
+│   │       ├── StickyCards.tsx         # Scroll-triggered card reveal (GSAP ScrollTrigger)
+│   │       ├── StickyStack.tsx         # Scroll-driven stack/scale/fade (GSAP ScrollTrigger)
+│   │       ├── TextScramble.tsx        # Text scramble/decode animation (GSAP ticker)
+│   │       ├── Typewriter.tsx          # Character-by-character text reveal (GSAP proxy)
+│   │       └── ZoomParallax.tsx        # Parallax zoom on scroll (GSAP ScrollTrigger)
 │   ├── contexts/
-│   │   ├── LanguageContext.tsx          # ← NEW: Context + useLanguage hook (decoupled for React Refresh)
-│   │   └── LanguageProvider.tsx         # ← NEW: Provider component (separate file — Fast Refresh compliant)
+│   │   ├── LanguageContext.tsx          # Context + useLanguage hook (decoupled for React Refresh)
+│   │   └── LanguageProvider.tsx         # Provider component (separate file — Fast Refresh compliant)
 │   ├── hooks/
-│   │   ├── useDirection.ts             # ← NEW: RTL/LTR MutationObserver with prev !== newDir loop guard
-│   │   └── use-mobile.ts               # Pre-existing mobile detection
+│   │   ├── useDirection.ts             # RTL/LTR MutationObserver with prev !== newDir loop guard
+│   │   ├── use-mobile.ts              # Pre-existing mobile detection
+│   │   ├── useScrollProgress.ts        # ← NEW (Phase C-C0): useSyncExternalStore scroll progress
+│   │   ├── useInView.ts                # ← NEW (Phase C-C0): IntersectionObserver viewport detection
+│   │   ├── useMediaQuery.ts            # ← NEW (Phase C-C0): useSyncExternalStore media query
+│   │   └── useReducedMotion.ts          # ← NEW (Phase C-C0): delegates to useMediaQuery
 │   ├── data/                     # JSON data layer (9 files, UTF-8 clean)
 │   │   ├── site.json             # Site metadata, nav, social, quickLinks
 │   │   ├── hero.json             # Hero status, name, title, CTA, backgroundGradient
@@ -352,12 +365,166 @@ Phase B ensures the UI is structurally ready for Phase C cinematic upgrades (GSA
 
 ---
 
+## Phase C — Cinematic Foundation (IN PROGRESS — PR #9 Awaiting User Approval)
+
+### Context
+Phase A locked data integrity. Phase B ensured UI + type safety + SEO integrity. Phase C introduces the cinematic foundation: **4 custom hooks** and **8 animation wrapper components** that enable scroll-driven and motion-based UI effects across the site. All wrappers are **isolated** (no usage outside `src/components/animations/`) — they will be integrated into sections in later Phase C sub-PRs.
+
+### Branch
+`phase-c-cinematic-foundation` → PR #9
+
+### PR URL
+https://github.com/mostafaelhlaly2020/mostafa-portfolio-v1/pull/9
+
+---
+
+### Phase C-C0 — Hooks Layer (4 Hooks)
+
+| Hook | File | Purpose | Implementation |
+|------|------|---------|----------------|
+| `useScrollProgress` | `src/hooks/useScrollProgress.ts` | Tracks page scroll progress (0–1) | `useSyncExternalStore` with passive `scroll` + `resize` listeners, `getServerSnapshot = 0` |
+| `useInView` | `src/hooks/useInView.ts` | Detects when element enters viewport | `IntersectionObserver` with `threshold`, `rootMargin`, `triggerOnce` options. Returns `{ ref, inView }` |
+| `useMediaQuery` | `src/hooks/useMediaQuery.ts` | Reactive media query matching | `useSyncExternalStore` with `useCallback`-memoized `subscribe`/`getSnapshot` keyed on `query` |
+| `useReducedMotion` | `src/hooks/useReducedMotion.ts` | Respects `prefers-reduced-motion` | Delegates to `useMediaQuery('(prefers-reduced-motion: reduce)')` — DRY |
+
+#### Key Design Decisions (Hooks)
+1. **`useSyncExternalStore` pattern** — Avoids `set-state-in-effect` anti-pattern flagged by ESLint `react-hooks/set-state-in-effect` rule. All external subscriptions (scroll, resize, matchMedia) use `useSyncExternalStore` with `getServerSnapshot`.
+2. **`useCallback` memoization** — `useMediaQuery` wraps `subscribe` and `getSnapshot` in `useCallback` keyed on `query` to prevent unnecessary resubscription on every render (CodeRabbit CR-9).
+3. **DRY delegation** — `useReducedMotion` delegates entirely to `useMediaQuery` instead of duplicating `matchMedia` logic (CodeRabbit CR-10).
+4. **SSR-safe** — All hooks provide `getServerSnapshot` returning safe defaults (`0`, `false`).
+
+---
+
+### Phase C-C0 — Animation Wrappers Layer (8 Wrappers)
+
+| Component | File | Effect | GSAP? | Reduced Motion |
+|-----------|------|--------|-------|----------------|
+| `KineticMarquee` | `src/components/animations/KineticMarquee.tsx` | Infinite horizontal scroll marquee | ✅ GSAP `fromTo` + `repeat: -1` | Static layout, `aria-label` preserved |
+| `MeshGradient` | `src/components/animations/MeshGradient.tsx` | Animated gradient mesh background | ❌ CSS `@keyframes` only | Static gradient (no animation) |
+| `SpotlightBorder` | `src/components/animations/SpotlightBorder.tsx` | Interactive spotlight cursor border | ❌ CSS custom properties | No spotlight, standard layout |
+| `StickyCards` | `src/components/animations/StickyCards.tsx` | Scroll-triggered card reveal | ✅ GSAP ScrollTrigger | Normal flow layout |
+| `StickyStack` | `src/components/animations/StickyStack.tsx` | Scroll-driven stack/scale/fade | ✅ GSAP ScrollTrigger | Normal flow layout |
+| `TextScramble` | `src/components/animations/TextScramble.tsx` | Text scramble/decode animation | ✅ GSAP `ticker` | Shows text instantly |
+| `Typewriter` | `src/components/animations/Typewriter.tsx` | Character-by-character text reveal | ✅ GSAP `gsap.to` proxy | Shows text instantly |
+| `ZoomParallax` | `src/components/animations/ZoomParallax.tsx` | Parallax zoom on scroll | ✅ GSAP ScrollTrigger | No zoom effect |
+
+#### Key Design Decisions (Animation Wrappers)
+1. **Every wrapper checks `useReducedMotion`** — When `prefers-reduced-motion: reduce` is active, animations are disabled and content displays in a static/accessible form.
+2. **GSAP context lifecycle** — All GSAP-using wrappers create `gsap.context()` and call `ctx.revert()` on cleanup. Prevents memory leaks and orphaned DOM mutations.
+3. **`useLayoutEffect` for GSAP** — StickyCards, StickyStack, and ZoomParallax use `useLayoutEffect` instead of `useEffect` to prevent flash of unanimated content (CodeRabbit CR-8).
+4. **CSS custom properties for high-frequency updates** — SpotlightBorder sets `--spotlight-x`/`--spotlight-y` directly on DOM node instead of React state, avoiding re-renders on every `mousemove` (CodeRabbit CR-11).
+5. **Global CSS keyframes** — MeshGradient's `@keyframes meshGradient` defined once in `src/index.css` instead of per-instance `<style>` injection (CodeRabbit CR-3, CR-6 duplicate keyframes).
+6. **Full isolation** — No animation wrapper is imported or used anywhere outside `src/components/animations/`. They are pure building blocks for future integration.
+
+---
+
+### CodeRabbit Review (GitHub PR #9) — Full Audit Trail
+
+CodeRabbit posted **11 review comments** on PR #9. All were addressed:
+
+| # | Severity | File | Issue | Fix Applied |
+|---|----------|------|-------|-------------|
+| CR-1 | 🔴 Critical | `KineticMarquee.tsx` | DOM clones accumulate — `appendChild` clones never removed on cleanup | Capture `originalChildren` before cloning; remove clones in cleanup return via `.slice(originalChildren.length)` |
+| CR-2 | 🟠 Major | `KineticMarquee.tsx` | `aria-hidden="true"` hides original content from screen readers | Remove `aria-hidden` from container; add `aria-hidden` only on clone nodes; add `aria-label` prop |
+| CR-3 | 🟡 Minor | `MeshGradient.tsx` | No validation on `colors` length — `< 2` produces invalid gradient | Validate `colors.length >= 2` with `DEFAULT_COLORS` fallback |
+| CR-4 | 🟠 Major | `TextScramble.tsx` | `trigger="inView"` declared in props but never implemented — renders blank | Implement using `useInView` hook with combined ref callback |
+| CR-5 | 🟡 Minor | `Typewriter.tsx` | `visibleCount` not reset when `prefersReduced` flips true mid-animation | Derive `visibleCount` from `prefersReduced` instead of setState in effect |
+| CR-6 | 🔵 Trivial | `ZoomParallax.tsx` | Scale can visually overflow container | Add `overflow: hidden` on wrapper div |
+| CR-7 | 🔵 Trivial | `StickyCards.tsx` | JSDoc promises "sticking"/overlap but implementation only fades/slides | Fix JSDoc: "Sticky positioning must be provided by consumer CSS" |
+| CR-8 | 🔵 Trivial | `StickyCards.tsx`, `StickyStack.tsx`, `ZoomParallax.tsx` | `useEffect` runs after paint → flash of unanimated content | Changed to `useLayoutEffect` |
+| CR-9 | 🔵 Trivial | `useMediaQuery.ts` | Inline `subscribe`/`getSnapshot` cause resubscription on every render | Wrap in `useCallback` keyed on `query` |
+| CR-10 | 🔵 Trivial | `useReducedMotion.ts` | Duplicates `useMediaQuery` matchMedia logic | Refactor to `return useMediaQuery('(prefers-reduced-motion: reduce)')` |
+| CR-11 | 🔵 Trivial | `SpotlightBorder.tsx` | Per-mousemove `setState` causes re-render on every pointer move | Replace `useState` position with CSS custom properties set directly on DOM |
+
+### Additional Blocker Fixes (Per Mission Spec)
+
+| Blocker | Fix |
+|---------|-----|
+| `role="marquee"` — invalid ARIA role | Removed; replaced with `aria-label` prop for accessible labeling |
+| Wrapper usage in pages/sections/layout/demo | Verified: zero imports outside `src/components/animations/` (full isolation) |
+
+---
+
+### Directory Structure Additions (Phase C)
+
+```
+src/
+├── hooks/
+│   ├── useDirection.ts                # Pre-existing (Phase 2)
+│   ├── use-mobile.ts                  # Pre-existing
+│   ├── useScrollProgress.ts           # ← NEW: useSyncExternalStore scroll progress
+│   ├── useInView.ts                   # ← NEW: IntersectionObserver viewport detection
+│   ├── useMediaQuery.ts               # ← NEW: useSyncExternalStore media query
+│   └── useReducedMotion.ts            # ← NEW: delegates to useMediaQuery
+├── components/
+│   └── animations/                    # ← NEW DIRECTORY: 8 isolated animation wrappers
+│       ├── KineticMarquee.tsx         # Infinite scroll marquee (GSAP)
+│       ├── MeshGradient.tsx           # Animated gradient mesh (CSS keyframes)
+│       ├── SpotlightBorder.tsx        # Interactive spotlight cursor (CSS custom props)
+│       ├── StickyCards.tsx            # Scroll-triggered card reveal (GSAP ScrollTrigger)
+│       ├── StickyStack.tsx            # Scroll-driven stack/scale/fade (GSAP ScrollTrigger)
+│       ├── TextScramble.tsx           # Text scramble/decode (GSAP ticker + useInView)
+│       ├── Typewriter.tsx             # Character-by-character reveal (GSAP proxy)
+│       └── ZoomParallax.tsx           # Parallax zoom on scroll (GSAP ScrollTrigger)
+└── index.css                          # ← MODIFIED: added @keyframes meshGradient (global)
+```
+
+---
+
+### Commits (Atomic, Strict Order)
+
+1. `b50bdb3` — `feat(hooks): add useScrollProgress, useInView, useMediaQuery, useReducedMotion`
+2. `9484ca0` — `refactor(hooks): use useSyncExternalStore for useMediaQuery and useReducedMotion to avoid set-state-in-effect`
+3. `47adf51` — `feat(animations): add 8 cinematic animation wrappers`
+4. `6f1ab76` — `fix(C0): address code review findings` (initial manual review fixes: useScrollProgress refactor, TextScramble cleanup, KineticMarquee accessibility, MeshGradient client directive)
+5. `9d45050` — `fix(C0): address all CodeRabbit review findings` (CR-1 through CR-11 + blocker fixes)
+6. `ac2ebee` — `fix(C0): fix ESLint set-state-in-effect in Typewriter + exclude test dirs + fix broken-image in test`
+
+### tsconfig.app.json Change
+```json
+{
+  "include": ["src"],
+  "exclude": ["src/**/__tests__/**", "src/test/**"]  // ← ADDED: exclude test files from build
+}
+```
+
+---
+
+### Verification Gates (All Passed)
+
+| Check | Status | Details |
+|-------|--------|---------|
+| `npx tsc --noEmit` | ✅ Exit 0 | Zero TypeScript errors |
+| `npx eslint .` | ✅ Exit 0 | Zero ESLint errors |
+| `npm run build` | ✅ Exit 0 | Production build successful (513.50 kB JS, 23.94 kB CSS) |
+| Browser test | ✅ | `http://localhost:3000` renders correctly, zero console errors |
+
+### Scope Boundaries Enforced
+- ✅ **4 Hooks** — `useScrollProgress`, `useInView`, `useMediaQuery`, `useReducedMotion`
+- ✅ **8 Animation Wrappers** — All isolated, no usage outside `src/components/animations/`
+- ✅ **1 CSS addition** — `@keyframes meshGradient` in `src/index.css`
+- ✅ **1 tsconfig change** — Exclude test dirs from build compilation
+- ✅ **Zero pages modified** — No page component imports any animation wrapper
+- ✅ **Zero sections modified** — No section component imports any animation wrapper
+- ✅ **Zero layout changes** — Layout untouched
+- ✅ **CodeRabbit reviewed** — All 11 comments addressed
+- ✅ **No merge** — PR #9 awaiting user approval
+
+### Phase C-C0 → Next Steps (BLOCKED until PR #9 approved)
+- **C1**: Integrate animation wrappers into Landing Page sections (Hero, About, Skills, etc.)
+- **C2**: Integrate animation wrappers into remaining pages
+- **C3**: Performance optimization (code-splitting GSAP, lazy loading)
+- **C4**: Accessibility audit (reduced-motion, keyboard navigation, ARIA)
+
+---
+
 ## Dependencies
 ```json
 {
   "three": "REMOVED ✅",
   "@types/three": "REMOVED ✅",
-  "react-helmet-async": "ADDED ✅"
+  "react-helmet-async": "ADDED ✅",
+  "gsap": "^3.15.0 — USED ✅ (Phase C-C0: KineticMarquee, StickyCards, StickyStack, TextScramble, Typewriter, ZoomParallax)"
 }
 ```
 
