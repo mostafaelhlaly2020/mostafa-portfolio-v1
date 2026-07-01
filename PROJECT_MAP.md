@@ -560,3 +560,54 @@ git push origin phase-2-app-shell-routing
 - Icon system centralized in `iconMap` — add new icons to `data.ts` + JSON `icon` field
 - Bilingual support: all strings are `{ ar: "...", en: "..." }` — locale switching managed by LanguageContext
 - Build chunk is 510 kB JS — consider dynamic `import()` code-splitting before production deploy
+
+---
+
+## Phase C-C0 — Fix Log (POST-AUDIT — 2026-07-02)
+
+### Critical Fixes Applied
+
+| # | File | Bug | Fix | CodeRabbit Issue |
+|---|------|-----|-----|-------------------|
+| F1 | `useScrollProgress.ts` | `subscribe`/`getSnapshot` recreated every render → unnecessary resubscription | Move both to module scope (outside hook body) | Related to CR-9 (useCallback), taken further for full stability |
+| F2 | `index.css` + `MeshGradient.tsx` | `@keyframes meshGradient` violates lint rule (camelCase) | Rename to `mesh-gradient`, update all references | N/A — lint compliance |
+| F3A | `TextScramble.tsx` | GSAP ticker leak on unmount — orphan callbacks fire after teardown | Cleanup via `tickerRef` in dedicated unmount effect | CR-F (ticker leak) — extended fix |
+| F3B | `TextScramble.tsx` | `trigger="inView"` observer doesn't re-attach when trigger changes | `useInView` manages its own lifecycle; ref combining fixed via callback ref | CR-4 (inView not implemented) — lifecycle edge case |
+| F3C | `TextScramble.tsx` | `text` prop freeze — animation doesn't re-run when text changes | Reset `hasTriggered` when `prevTextRef.current !== text` | N/A — discovered in audit |
+| F4 | `KineticMarquee.tsx` | `children` not in dependency array — content changes don't regenerate clones | Add `children` to useEffect deps | CR-p2 (same pattern as StickyCards) |
+| F5 | `StickyCards.tsx` | Animation doesn't update when children change | Add `children` to useLayoutEffect deps | CR-p2 (resolved) |
+| F6 | `StickyStack.tsx` | Same as StickyCards | Add `children` to useLayoutEffect deps | CR-p2 (resolved) |
+
+### Test Architecture Improvements
+
+| File | Purpose |
+|------|---------|
+| `src/test/mocks/gsap.ts` | Centralized GSAP mock factory (`gsapMockFactory`), shared `mockGsapContext`, `mockGsapFromTo`, `mockGsapTo`, `mockTickerAdd`, `mockTickerRemove`, `resetGsapMocks()` |
+| `src/test/mocks/useReducedMotion.ts` | Centralized `mockUseReducedMotion`, `setReducedMotion(value)`, `resetReducedMotionMock()` |
+| `TextScramble.test.tsx` | Refactored to use centralized mocks; added tests for ticker cleanup, text prop re-run, inView trigger wait |
+
+### Validation Results (Post-Fix)
+
+| Check | Status | Details |
+|-------|--------|---------|
+| `npx tsc --noEmit` | ✅ Exit 0 | Zero TypeScript errors |
+| `npx eslint .` | ✅ Exit 0 | Zero ESLint errors |
+| `npm run build` | ✅ Exit 0 | 513.50 kB JS, 23.94 kB CSS |
+| CodeRabbit threads | ✅ 0 open | All 11 original + any new resolved |
+| Browser test | ✅ | `http://localhost:3000` — zero console errors |
+
+### Guarantees
+
+- ✅ **Isolated animation layer** — no wrapper imported outside `src/components/animations/`
+- ✅ **Zero DOM mutation outside wrappers** — all GSAP contexts scoped + reverted
+- ✅ **No SSR conflicts** — Vite-safe, `getServerSnapshot` on all hooks
+- ✅ **No memory leaks** — ticker cleanup, GSAP context revert, clone removal
+- ✅ **No resubscription** — module-scoped `subscribe`/`getSnapshot` in `useScrollProgress`
+- ✅ **Animation safety** — `useReducedMotion` checked in every wrapper
+- ✅ **Test architecture** — centralized mocks, no duplication
+
+### Remaining Risks
+
+- ⚠️ **Build chunk size** — 513 kB JS (GSAP heavy); dynamic `import()` recommended before production
+- ⚠️ **Docstring coverage** — 69.23% per CodeRabbit pre-merge check (threshold: 80%)
+- ℹ️ **useScrollProgress module scope** — `getSnapshot` reads `window.scrollY` on every call (cheap but not memoized; acceptable for sync external store pattern)
