@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useLayoutEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
@@ -13,8 +13,9 @@ interface StickyCardsProps {
 }
 
 /**
- * Sticky cards on scroll using GSAP ScrollTrigger.
- * Each card sticks briefly while the next one overlaps it.
+ * Scroll-triggered card reveal using GSAP ScrollTrigger.
+ * Cards fade in and slide up as they enter the viewport.
+ * Sticky positioning and overlap must be provided by consumer CSS.
  * Respects prefers-reduced-motion: normal flow layout.
  * GSAP context wrapped, ctx.revert() on unmount.
  */
@@ -26,7 +27,7 @@ export default function StickyCards({
   const containerRef = useRef<HTMLDivElement>(null)
   const ctxRef = useRef<gsap.Context | null>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (prefersReduced || !containerRef.current) return
 
     ctxRef.current = gsap.context(() => {

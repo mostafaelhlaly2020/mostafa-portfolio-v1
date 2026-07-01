@@ -2,8 +2,10 @@
 
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
+const DEFAULT_COLORS = ['#7c3aed', '#2563eb']
+
 interface MeshGradientProps {
-  /** Brand colors for the gradient mesh */
+  /** Brand colors for the gradient mesh (minimum 2) */
   colors: string[]
   /** Animation duration in seconds (default: 8) */
   speed?: number
@@ -13,8 +15,9 @@ interface MeshGradientProps {
 
 /**
  * Animated gradient mesh background using CSS Keyframes only.
- * GPU-accelerated via transform and opacity.
+ * GPU-accelerated via background-position animation.
  * Respects prefers-reduced-motion: shows static gradient.
+ * Keyframes defined once in global scope to avoid per-instance duplication.
  */
 export default function MeshGradient({
   colors,
@@ -23,12 +26,15 @@ export default function MeshGradient({
 }: MeshGradientProps) {
   const prefersReduced = useReducedMotion()
 
+  // Validate colors — need at least 2 for a valid gradient
+  const safeColors = colors.length >= 2 ? colors : DEFAULT_COLORS
+
   const gradientStyle: React.CSSProperties = prefersReduced
     ? {
-        background: `linear-gradient(135deg, ${colors.join(', ')})`,
+        background: `linear-gradient(135deg, ${safeColors.join(', ')})`,
       }
     : {
-        background: `linear-gradient(135deg, ${colors.join(', ')})`,
+        background: `linear-gradient(135deg, ${safeColors.join(', ')})`,
         backgroundSize: '400% 400%',
         animation: `meshGradient ${speed}s ease infinite`,
       }
@@ -38,16 +44,6 @@ export default function MeshGradient({
       className={className}
       style={gradientStyle}
       aria-hidden="true"
-    >
-      {!prefersReduced && (
-        <style>{`
-          @keyframes meshGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-          }
-        `}</style>
-      )}
-    </div>
+    />
   )
 }

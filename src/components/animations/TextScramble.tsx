@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState, useCallback } from 'react'
 import gsap from 'gsap'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
+import { useInView } from '@/hooks/useInView'
 
 interface TextScrambleProps {
   /** The text to display and scramble */
@@ -18,8 +19,9 @@ const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#
 /**
  * Text scramble/decode animation using GSAP ticker.
  * Characters randomly shuffle before resolving to the target text.
+ * Supports mount, hover, and inView trigger modes.
  * Respects prefers-reduced-motion: shows text instantly.
- * GSAP ticker cleaned up on unmount.
+ * GSAP ticker cleaned up on unmount and between triggers.
  */
 export default function TextScramble({
   text,
@@ -28,6 +30,7 @@ export default function TextScramble({
   onComplete,
 }: TextScrambleProps) {
   const prefersReduced = useReducedMotion()
+  const { ref: inViewRef, inView } = useInView<HTMLElement>({ threshold: 0.3, triggerOnce: true })
   const containerRef = useRef<HTMLSpanElement>(null)
   const [displayText, setDisplayText] = useState(prefersReduced ? text : '')
   const [isHovering, setIsHovering] = useState(false)
@@ -85,6 +88,7 @@ export default function TextScramble({
     }
   }, [])
 
+  // mount trigger
   useEffect(() => {
     if (prefersReduced) {
       setDisplayText(text)
@@ -97,6 +101,7 @@ export default function TextScramble({
     }
   }, [trigger, text, prefersReduced, scramble])
 
+  // hover trigger
   useEffect(() => {
     if (prefersReduced || trigger !== 'hover') return
     if (isHovering) {
@@ -104,10 +109,30 @@ export default function TextScramble({
     }
   }, [isHovering, trigger, prefersReduced, scramble])
 
+  // inView trigger
+  useEffect(() => {
+    if (prefersReduced || trigger !== 'inView') return
+    if (inView && !hasTriggered.current) {
+      hasTriggered.current = true
+      scramble()
+    }
+  }, [inView, trigger, prefersReduced, scramble])
+
+  // Combine refs for inView + container
+  const setRefs = useCallback(
+    (node: HTMLSpanElement | null) => {
+      (containerRef as React.MutableRefObject<HTMLSpanElement | null>).current = node
+      if (trigger === 'inView') {
+        (inViewRef as React.MutableRefObject<HTMLElement | null>).current = node
+      }
+    },
+    [trigger, inViewRef]
+  )
+
   if (trigger === 'hover') {
     return (
       <span
-        ref={containerRef}
+        ref={setRefs}
         className={className}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
@@ -118,7 +143,7 @@ export default function TextScramble({
   }
 
   return (
-    <span ref={containerRef} className={className}>
+    <span ref={setRefs} className={className}>
       {displayText}
     </span>
   )

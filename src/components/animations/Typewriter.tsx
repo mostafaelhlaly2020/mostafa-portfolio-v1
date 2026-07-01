@@ -35,6 +35,7 @@ export default function Typewriter({
 
   useEffect(() => {
     if (prefersReduced) {
+      setVisibleCount(text.length)
       return
     }
 

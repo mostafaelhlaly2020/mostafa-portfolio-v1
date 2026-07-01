@@ -9,20 +9,24 @@ interface KineticMarqueeProps {
   speed?: number
   /** Scroll direction — respects RTL/LTR */
   direction?: 'rtl' | 'ltr'
+  /** Accessible label describing the marquee content */
+  'aria-label'?: string
   /** Additional CSS classes */
   className?: string
 }
 
 /**
  * Infinite horizontal scroll marquee using GSAP.
- * Duplicates children for seamless looping.
+ * Duplicates children for seamless looping via declarative rendering.
  * Respects prefers-reduced-motion: static layout.
  * GSAP context wrapped, ctx.revert() on unmount.
+ * Clone nodes are cleaned up on re-run to prevent DOM accumulation.
  */
 export default function KineticMarquee({
   children,
   speed = 50,
   direction = 'rtl',
+  'aria-label': ariaLabel,
   className = '',
 }: KineticMarqueeProps) {
   const prefersReduced = useReducedMotion()
@@ -33,12 +37,15 @@ export default function KineticMarquee({
     if (prefersReduced || !trackRef.current) return
 
     const track = trackRef.current
-    const items = track.children
+    // Capture only the originally-rendered children so re-runs don't clone stale clones
+    const originalChildren = Array.from(track.children)
 
     // Duplicate items for seamless loop
     const fragment = document.createDocumentFragment()
-    Array.from(items).forEach((item) => {
-      fragment.appendChild(item.cloneNode(true))
+    originalChildren.forEach((item) => {
+      const clone = item.cloneNode(true) as HTMLElement
+      clone.setAttribute('aria-hidden', 'true')
+      fragment.appendChild(clone)
     })
     track.appendChild(fragment)
 
@@ -61,12 +68,16 @@ export default function KineticMarquee({
 
     return () => {
       ctxRef.current?.revert()
+      // Remove the clones so the next effect run starts from the original set
+      Array.from(track.children)
+        .slice(originalChildren.length)
+        .forEach((clone) => clone.remove())
     }
   }, [speed, direction, prefersReduced])
 
   if (prefersReduced) {
     return (
-      <div className={`overflow-hidden ${className}`}>
+      <div className={`overflow-hidden ${className}`} aria-label={ariaLabel}>
         <div ref={trackRef} className="flex items-center gap-8">
           {children}
         </div>
@@ -75,7 +86,7 @@ export default function KineticMarquee({
   }
 
   return (
-    <div className={`overflow-hidden ${className}`} role="marquee">
+    <div className={`overflow-hidden ${className}`} aria-label={ariaLabel}>
       <div ref={trackRef} className="flex items-center gap-8">
         {children}
       </div>

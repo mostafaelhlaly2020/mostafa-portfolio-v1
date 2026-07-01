@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useRef, useLayoutEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
@@ -29,7 +29,7 @@ export default function ZoomParallax({
   const containerRef = useRef<HTMLDivElement>(null)
   const ctxRef = useRef<gsap.Context | null>(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (prefersReduced || !containerRef.current) return
 
     ctxRef.current = gsap.context(() => {
@@ -55,7 +55,7 @@ export default function ZoomParallax({
   }, [intensity, prefersReduced])
 
   return (
-    <div ref={containerRef} className={className}>
+    <div ref={containerRef} className={className} style={{ overflow: 'hidden' }}>
       {children}
     </div>
   )
