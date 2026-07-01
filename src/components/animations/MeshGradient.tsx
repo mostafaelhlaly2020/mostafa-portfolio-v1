@@ -1,3 +1,5 @@
+'use client'
+
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
 interface MeshGradientProps {
@@ -37,13 +39,15 @@ export default function MeshGradient({
       style={gradientStyle}
       aria-hidden="true"
     >
-      <style>{`
-        @keyframes meshGradient {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-      `}</style>
+      {!prefersReduced && (
+        <style>{`
+          @keyframes meshGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+          }
+        `}</style>
+      )}
     </div>
   )
 }

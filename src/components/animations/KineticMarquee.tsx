@@ -75,7 +75,7 @@ export default function KineticMarquee({
   }
 
   return (
-    <div className={`overflow-hidden ${className}`} aria-hidden="true">
+    <div className={`overflow-hidden ${className}`} role="marquee">
       <div ref={trackRef} className="flex items-center gap-8">
         {children}
       </div>

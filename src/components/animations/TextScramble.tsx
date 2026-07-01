@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
 import gsap from 'gsap'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
@@ -16,10 +16,10 @@ interface TextScrambleProps {
 const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%'
 
 /**
- * Text scramble/decode animation using GSAP.
+ * Text scramble/decode animation using GSAP ticker.
  * Characters randomly shuffle before resolving to the target text.
  * Respects prefers-reduced-motion: shows text instantly.
- * GSAP context wrapped, ctx.revert() on unmount.
+ * GSAP ticker cleaned up on unmount.
  */
 export default function TextScramble({
   text,
@@ -32,8 +32,15 @@ export default function TextScramble({
   const [displayText, setDisplayText] = useState(prefersReduced ? text : '')
   const [isHovering, setIsHovering] = useState(false)
   const hasTriggered = useRef(false)
+  const tickerRef = useRef<(() => void) | null>(null)
 
-  const scramble = () => {
+  const scramble = useCallback(() => {
+    // Clean up any previous ticker
+    if (tickerRef.current) {
+      gsap.ticker.remove(tickerRef.current)
+      tickerRef.current = null
+    }
+
     if (prefersReduced) {
       setDisplayText(text)
       onComplete?.()
@@ -59,13 +66,24 @@ export default function TextScramble({
 
       if (frame >= totalFrames) {
         gsap.ticker.remove(ticker)
+        tickerRef.current = null
         setDisplayText(text)
         onComplete?.()
       }
     }
 
+    tickerRef.current = ticker
     gsap.ticker.add(ticker)
-  }
+  }, [text, prefersReduced, onComplete])
+
+  // Cleanup ticker on unmount
+  useEffect(() => {
+    return () => {
+      if (tickerRef.current) {
+        gsap.ticker.remove(tickerRef.current)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     if (prefersReduced) {
@@ -77,16 +95,14 @@ export default function TextScramble({
       hasTriggered.current = true
       scramble()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [trigger, text, prefersReduced])
+  }, [trigger, text, prefersReduced, scramble])
 
   useEffect(() => {
     if (prefersReduced || trigger !== 'hover') return
     if (isHovering) {
       scramble()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isHovering])
+  }, [isHovering, trigger, prefersReduced, scramble])
 
   if (trigger === 'hover') {
     return (
