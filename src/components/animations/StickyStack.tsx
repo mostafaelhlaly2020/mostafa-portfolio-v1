@@ -52,7 +52,7 @@ export default function StickyStack({
     return () => {
       ctxRef.current?.revert()
     }
-  }, [prefersReduced])
+  }, [prefersReduced, children])
 
   return (
     <div ref={containerRef} className={className}>
