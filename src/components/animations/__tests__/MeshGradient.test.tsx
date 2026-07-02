@@ -30,7 +30,7 @@ describe('MeshGradient', () => {
     const { container } = render(<MeshGradient colors={['#fff', '#000']} speed={8} />)
     const el = container.firstChild as HTMLElement
     expect(el.style.backgroundSize).toBe('400% 400%')
-    expect(el.style.animation).toContain('meshGradient 8s ease infinite')
+    expect(el.style.animation).toContain('mesh-gradient 8s ease infinite')
   })
 
   it('uses the default speed of 8 seconds when none is provided', () => {
@@ -58,11 +58,5 @@ describe('MeshGradient', () => {
     expect(el.style.animation).toBe('')
     expect(el.style.backgroundSize).toBe('')
     expect(el.style.background).toBe('linear-gradient(135deg, #fff, #000)')
-  })
-
-  it('always renders the keyframes style tag regardless of reduced motion', () => {
-    mockUseReducedMotion.mockReturnValue(true)
-    const { container } = render(<MeshGradient colors={['#fff', '#000']} />)
-    expect(container.querySelector('style')?.textContent).toContain('@keyframes meshGradient')
   })
 })

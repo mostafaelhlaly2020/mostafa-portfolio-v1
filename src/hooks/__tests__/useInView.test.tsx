@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, act } from '@testing-library/react'
 import { useInView } from '../useInView'
 
 interface UseInViewOptions {
@@ -77,7 +77,9 @@ describe('useInView', () => {
     render(<TestComponent />)
     const observer = MockIntersectionObserver.instances[0]
 
-    observer.trigger(true)
+    act(() => {
+      observer.trigger(true)
+    })
 
     expect(screen.getByTestId('target')).toHaveTextContent('visible')
   })
@@ -86,10 +88,14 @@ describe('useInView', () => {
     render(<TestComponent />)
     const observer = MockIntersectionObserver.instances[0]
 
-    observer.trigger(true)
+    act(() => {
+      observer.trigger(true)
+    })
     expect(screen.getByTestId('target')).toHaveTextContent('visible')
 
-    observer.trigger(false)
+    act(() => {
+      observer.trigger(false)
+    })
     expect(screen.getByTestId('target')).toHaveTextContent('hidden')
   })
 
@@ -97,7 +103,9 @@ describe('useInView', () => {
     render(<TestComponent />)
     const observer = MockIntersectionObserver.instances[0]
 
-    observer.trigger(true)
+    act(() => {
+      observer.trigger(true)
+    })
 
     expect(observer.unobserve).not.toHaveBeenCalled()
   })
@@ -106,7 +114,9 @@ describe('useInView', () => {
     render(<TestComponent options={{ triggerOnce: true }} />)
     const observer = MockIntersectionObserver.instances[0]
 
-    observer.trigger(true)
+    act(() => {
+      observer.trigger(true)
+    })
 
     expect(observer.unobserve).toHaveBeenCalledTimes(1)
   })
@@ -115,7 +125,9 @@ describe('useInView', () => {
     render(<TestComponent options={{ triggerOnce: true }} />)
     const observer = MockIntersectionObserver.instances[0]
 
-    observer.trigger(false)
+    act(() => {
+      observer.trigger(false)
+    })
 
     expect(observer.unobserve).not.toHaveBeenCalled()
   })

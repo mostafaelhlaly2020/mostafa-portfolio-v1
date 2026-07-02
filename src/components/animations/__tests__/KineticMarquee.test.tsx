@@ -38,14 +38,14 @@ describe('KineticMarquee', () => {
   })
 
   it('renders all children', () => {
-    const { getByText } = render(
+    const { getAllByText } = render(
       <KineticMarquee>
         <span>Item 1</span>
         <span>Item 2</span>
       </KineticMarquee>
     )
-    expect(getByText('Item 1')).toBeInTheDocument()
-    expect(getByText('Item 2')).toBeInTheDocument()
+    expect(getAllByText('Item 1')[0]).toBeInTheDocument()
+    expect(getAllByText('Item 2')[0]).toBeInTheDocument()
   })
 
   it('marks the outer container as aria-hidden when motion is not reduced', () => {

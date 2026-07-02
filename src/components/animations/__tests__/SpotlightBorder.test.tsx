@@ -53,7 +53,7 @@ describe('SpotlightBorder', () => {
         <span>content</span>
       </SpotlightBorder>
     )
-    const overlays = container.querySelectorAll('div > div')
+    const overlays = container.querySelectorAll('.pointer-events-none')
     overlays.forEach((overlay) => {
       expect((overlay as HTMLElement).style.opacity).toBe('0')
     })
@@ -68,7 +68,7 @@ describe('SpotlightBorder', () => {
     const wrapper = container.firstChild as HTMLElement
     fireEvent.mouseEnter(wrapper)
 
-    const overlays = container.querySelectorAll('div > div')
+    const overlays = container.querySelectorAll('.pointer-events-none')
     overlays.forEach((overlay) => {
       expect((overlay as HTMLElement).style.opacity).toBe('1')
     })
@@ -84,7 +84,7 @@ describe('SpotlightBorder', () => {
     fireEvent.mouseEnter(wrapper)
     fireEvent.mouseLeave(wrapper)
 
-    const overlays = container.querySelectorAll('div > div')
+    const overlays = container.querySelectorAll('.pointer-events-none')
     overlays.forEach((overlay) => {
       expect((overlay as HTMLElement).style.opacity).toBe('0')
     })
@@ -114,8 +114,8 @@ describe('SpotlightBorder', () => {
 
     fireEvent.mouseMove(wrapper, { clientX: 60, clientY: 45 })
 
-    const spotlightOverlay = container.querySelector('div > div') as HTMLElement
-    expect(spotlightOverlay.style.background).toContain('50px 25px')
+    expect(wrapper.style.getPropertyValue('--spotlight-x')).toBe('50px')
+    expect(wrapper.style.getPropertyValue('--spotlight-y')).toBe('25px')
   })
 
   it('does not update position when prefers-reduced-motion is set', () => {

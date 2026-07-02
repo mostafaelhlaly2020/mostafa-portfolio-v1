@@ -3,23 +3,11 @@ import { render, fireEvent, act } from '@testing-library/react'
 import { mockTickerAdd, mockTickerRemove } from '@/test/mocks/gsap'
 import { setReducedMotion } from '@/test/mocks/useReducedMotion'
 
-// Use centralized mocks
-vi.mock('gsap', () => {
-  const ticker = { add: vi.fn(), remove: vi.fn() }
-  return {
-    default: {
-      ticker,
-      context: vi.fn(),
-      to: vi.fn(),
-      fromTo: vi.fn(),
-      registerPlugin: vi.fn(),
-    },
-  }
-})
+import { gsapMockFactory, resetGsapMocks } from '@/test/mocks/gsap'
+import { useReducedMotionMockFactory, resetReducedMotionMock } from '@/test/mocks/useReducedMotion'
 
-vi.mock('@/hooks/useReducedMotion', () => ({
-  useReducedMotion: vi.fn(() => false),
-}))
+vi.mock('gsap', () => gsapMockFactory)
+vi.mock('@/hooks/useReducedMotion', () => useReducedMotionMockFactory)
 
 vi.mock('@/hooks/useInView', () => ({
   useInView: vi.fn(() => ({
@@ -40,11 +28,15 @@ function runFrames(fn: () => void, times: number) {
 
 describe('TextScramble', () => {
   beforeEach(() => {
+    resetGsapMocks()
+    resetReducedMotionMock()
     setReducedMotion(false)
   })
 
   afterEach(() => {
     vi.clearAllMocks()
+    resetGsapMocks()
+    resetReducedMotionMock()
   })
 
   it('shows the text immediately without scrambling when prefers-reduced-motion is set', () => {
