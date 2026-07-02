@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent, within } from '@testing-library/react'
 import Hero from '../Hero'
 
@@ -49,24 +49,21 @@ vi.mock('@/components/animations/SpotlightBorder', () => ({
 }))
 
 describe('Hero', () => {
-  afterEach(() => {
-    document.body.innerHTML = ''
+  beforeEach(() => {
+    render(<Hero />)
   })
 
   it('renders the section with id="home" and applies the background gradient inline style', () => {
-    render(<Hero />)
     const section = document.getElementById('home')
     expect(section).toBeInTheDocument()
     expect(section).toHaveStyle({ background: mockHero.backgroundGradient })
   })
 
   it('renders the availability status text', () => {
-    render(<Hero />)
     expect(screen.getByText(mockHero.status.ar)).toBeInTheDocument()
   })
 
   it('does not apply legacy GSAP opacity/translate classes to the status wrapper', () => {
-    render(<Hero />)
     const statusText = screen.getByText(mockHero.status.ar)
     const statusWrapper = statusText.closest('div.flex.items-center.gap-3')
     expect(statusWrapper).not.toBeNull()
@@ -75,35 +72,33 @@ describe('Hero', () => {
   })
 
   it('passes the hero name, a 0.5s delay, and the whitespace-pre-line class to Typewriter', () => {
-    render(<Hero />)
     const typewriter = screen.getByTestId('typewriter')
     expect(typewriter.textContent).toBe(mockHero.name.ar)
     expect(typewriter).toHaveAttribute('data-delay', '0.5')
     expect(typewriter).toHaveClass('whitespace-pre-line')
   })
 
-  it('renders the Typewriter inside an h1 heading without leftover opacity/translate classes', () => {
-    render(<Hero />)
+  it('renders the Typewriter inside an h1 heading with correct aria-label and aria-hidden wrapper', () => {
     const heading = screen.getByRole('heading', { level: 1 })
-    expect(within(heading).getByTestId('typewriter')).toBeInTheDocument()
+    expect(heading).toHaveAttribute('aria-label', mockHero.name.ar)
+    const typewriter = within(heading).getByTestId('typewriter')
+    expect(typewriter).toBeInTheDocument()
+    expect(typewriter.closest('[aria-hidden="true"]')).not.toBeNull()
     expect(heading.className).not.toMatch(/opacity-0/)
     expect(heading.className).not.toMatch(/translate-y/)
   })
 
   it('renders the hero title text', () => {
-    render(<Hero />)
     expect(screen.getByText(mockHero.title.ar)).toBeInTheDocument()
   })
 
   it('renders the portrait image with the correct src and localized alt text', () => {
-    render(<Hero />)
     const img = screen.getByAltText(mockHero.portraitAlt.ar) as HTMLImageElement
     expect(img).toBeInTheDocument()
     expect(img.getAttribute('src')).toBe(mockHero.portraitImage)
   })
 
   it('wraps the CTA link in a SpotlightBorder with the inline-block class', () => {
-    render(<Hero />)
     const spotlight = screen.getByTestId('spotlight-border')
     expect(spotlight).toHaveClass('inline-block')
 
@@ -113,14 +108,12 @@ describe('Hero', () => {
   })
 
   it('does not apply legacy GSAP opacity/translate classes to the CTA link', () => {
-    render(<Hero />)
     const link = screen.getByRole('link', { name: new RegExp(mockHero.cta.ar) })
     expect(link.className).not.toMatch(/opacity-0/)
     expect(link.className).not.toMatch(/translate-y/)
   })
 
   it('smooth-scrolls to the #contact element when the CTA is clicked', () => {
-    render(<Hero />)
     const contactSection = document.createElement('div')
     contactSection.id = 'contact'
     document.body.appendChild(contactSection)
@@ -135,7 +128,6 @@ describe('Hero', () => {
   })
 
   it('prevents the default anchor navigation when the CTA is clicked', () => {
-    render(<Hero />)
     const link = screen.getByRole('link', { name: new RegExp(mockHero.cta.ar) })
 
     const notCanceled = fireEvent.click(link)
@@ -145,7 +137,6 @@ describe('Hero', () => {
   })
 
   it('does not throw when the CTA is clicked and no #contact element exists in the DOM', () => {
-    render(<Hero />)
     const link = screen.getByRole('link', { name: new RegExp(mockHero.cta.ar) })
 
     expect(() => fireEvent.click(link)).not.toThrow()

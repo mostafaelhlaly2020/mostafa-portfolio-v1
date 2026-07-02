@@ -50,12 +50,15 @@ export default function Hero() {
             <h1
               className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-[#1A1A1A] leading-tight tracking-tight"
               style={{ fontFamily: "'Cairo', sans-serif" }}
+              aria-label={hero.name.ar}
             >
-              <Typewriter
-                text={hero.name.ar}
-                delay={0.5}
-                className="whitespace-pre-line"
-              />
+              <span aria-hidden="true">
+                <Typewriter
+                  text={hero.name.ar}
+                  delay={0.5}
+                  className="whitespace-pre-line"
+                />
+              </span>
             </h1>
             <p className="mt-6 text-xl md:text-2xl text-[#6B6B6B] font-light">
               {hero.title.ar}
