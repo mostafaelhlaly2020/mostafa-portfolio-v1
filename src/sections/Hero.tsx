@@ -47,11 +47,16 @@ export default function Hero() {
         <div className="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
           <div className="order-2 lg:order-1 text-right">
-            <Typewriter
-              text={hero.name.ar}
-              delay={0.5}
-              className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-[#1A1A1A] leading-tight tracking-tight whitespace-pre-line"
-            />
+            <h1
+              className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-[#1A1A1A] leading-tight tracking-tight"
+              style={{ fontFamily: "'Cairo', sans-serif" }}
+            >
+              <Typewriter
+                text={hero.name.ar}
+                delay={0.5}
+                className="whitespace-pre-line"
+              />
+            </h1>
             <p className="mt-6 text-xl md:text-2xl text-[#6B6B6B] font-light">
               {hero.title.ar}
             </p>
