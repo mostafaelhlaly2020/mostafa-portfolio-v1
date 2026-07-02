@@ -14,7 +14,7 @@ function subscribe(callback: () => void): () => void {
 function getSnapshot(): number {
   const scrollTop = window.scrollY
   const docHeight = document.documentElement.scrollHeight - window.innerHeight
-  return docHeight > 0 ? scrollTop / docHeight : 0
+  return docHeight > 0 ? Math.min(1, Math.max(0, scrollTop / docHeight)) : 0
 }
 
 function getServerSnapshot(): number {

@@ -1,4 +1,4 @@
-import { useRef, useState, useLayoutEffect } from 'react'
+import { useRef, useState, useEffect, useLayoutEffect } from 'react'
 import gsap from 'gsap'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
@@ -32,6 +32,10 @@ export default function Typewriter({
   const containerRef = useRef<HTMLSpanElement>(null)
   const [animatedCount, setAnimatedCount] = useState(0)
   const ctxRef = useRef<gsap.Context | null>(null)
+  const onCompleteRef = useRef(onComplete)
+  useEffect(() => {
+    onCompleteRef.current = onComplete
+  }, [onComplete])
 
   // When reduced motion is active, show full text immediately via derived value
   const visibleCount = prefersReduced ? text.length : animatedCount
@@ -52,7 +56,7 @@ export default function Typewriter({
         },
         onComplete: () => {
           setAnimatedCount(text.length)
-          onComplete?.()
+          onCompleteRef.current?.()
         },
       })
     }, containerRef)
@@ -61,7 +65,7 @@ export default function Typewriter({
       ctxRef.current?.revert()
       setAnimatedCount(0)
     }
-  }, [text, speed, delay, prefersReduced]) // eslint-disable-line react-hooks/exhaustive-deps -- onComplete intentionally excluded to prevent animation restart
+  }, [text, speed, delay, prefersReduced])
 
   return (
     <span ref={containerRef} className={className}>

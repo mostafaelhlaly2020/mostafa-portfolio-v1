@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect } from 'react'
+import React, { useRef, useLayoutEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
@@ -26,6 +26,7 @@ export default function StickyCards({
   const prefersReduced = useReducedMotion()
   const containerRef = useRef<HTMLDivElement>(null)
   const ctxRef = useRef<gsap.Context | null>(null)
+  const childCount = React.Children.count(children)
 
   useLayoutEffect(() => {
     if (prefersReduced || !containerRef.current) return
@@ -59,7 +60,7 @@ export default function StickyCards({
     return () => {
       ctxRef.current?.revert()
     }
-  }, [prefersReduced, children])
+  }, [prefersReduced, childCount])
 
   return (
     <div ref={containerRef} className={className}>

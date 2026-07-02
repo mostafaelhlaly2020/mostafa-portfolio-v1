@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import React, { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
 
@@ -32,6 +32,7 @@ export default function KineticMarquee({
   const prefersReduced = useReducedMotion()
   const trackRef = useRef<HTMLDivElement>(null)
   const ctxRef = useRef<gsap.Context | null>(null)
+  const childCount = React.Children.count(children)
 
   useEffect(() => {
     if (prefersReduced || !trackRef.current) return
@@ -73,7 +74,7 @@ export default function KineticMarquee({
         .slice(originalChildren.length)
         .forEach((clone) => clone.remove())
     }
-  }, [speed, direction, prefersReduced, children])
+  }, [speed, direction, prefersReduced, childCount])
 
   if (prefersReduced) {
     return (
