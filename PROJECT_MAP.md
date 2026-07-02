@@ -2,10 +2,10 @@
 ## Mostafa El-Sayed Portfolio v1
 **Project Root**: `E:/web site + n8n/portfolio web/mostafa-portfolio-v1/portfolio-v1`
 **Stack**: Vite + React 19 + TypeScript + Tailwind CSS + React Router v6
-**Branch**: `phase-c-cinematic-foundation`
-**Remote**: `origin/phase-c-cinematic-foundation`
-**Last Updated**: 2026-07-01
-**Status**: ✅ Phase 1 — Merged to main · ✅ Phase 2 — Merged to main (PR #3) · ✅ Phase A — Data Integrity Locked · ✅ Phase B — UI + Type Safety + SEO Integrity · 🔀 Phase C-C0 — Cinematic Foundation (PR #9 — Awaiting User Approval)
+**Branch**: `main`
+**Remote**: `origin/main`
+**Last Updated**: 2026-07-02
+**Status**: ✅ Phase 1 — Merged to main · ✅ Phase 2 — Merged to main (PR #3) · ✅ Phase A — Data Integrity Locked · ✅ Phase B — UI + Type Safety + SEO Integrity · ✅ Phase C-C0 — Cinematic Foundation (Merged) · ✅ Phase C1-1 — Hero Section Animation Integration (PR #11 — Merged to main)
 
 ---
 
@@ -611,3 +611,41 @@ git push origin phase-2-app-shell-routing
 - ⚠️ **Build chunk size** — 513 kB JS (GSAP heavy); dynamic `import()` recommended before production
 - ⚠️ **Docstring coverage** — 69.23% per CodeRabbit pre-merge check (threshold: 80%)
 - ℹ️ **useScrollProgress module scope** — `getSnapshot` reads `window.scrollY` on every call (cheap but not memoized; acceptable for sync external store pattern)
+
+---
+
+## Phase C1-1 — Hero Section Animation Integration (100% COMPLETED — 2026-07-02)
+
+### Architectural Changes Applied & Verified:
+
+#### Layer 1 — Semantic Outline Restoration & SEO Compliance
+- **What**: Wrapped `Typewriter` inside the original `<h1>` heading element with Cairo font-family in `Hero.tsx`.
+- **Why**: Keeps the document outline fully semantic, guaranteeing correct outline level indexing for SEO crawlers and screen reader accessibility tools.
+- **Verification**: `Hero.test.tsx` asserts that the typewriter component is nested directly inside `<h1>` and the Cairo font style matches the mockup.
+
+#### Layer 2 — Non-blocking Accessible Typing Fallback
+- **What**: Added `aria-label={hero.name.ar}` to `<h1>` and wrapped `<Typewriter />` in `span aria-hidden="true"` inside `Hero.tsx`.
+- **Why**: Typewriter reveals characters progressively, which confuses screen readers at initial mount and indexers. Providing a static `aria-label` guarantees immediate availability of the full name, while `aria-hidden` hides the progressive visual ticks from assistive tech.
+- **Verification**: Unit tests verify presence of both accessibility attributes on their respective DOM nodes.
+
+#### Layer 3 — JSDOM Leak Remediation & Setup Standardization
+- **What**: Centralized `cleanup()` in `afterEach` inside `src/test/setup.ts` and removed manual DOM teardowns from `Hero.test.tsx`. Centralized rendering inside `beforeEach`.
+- **Why**: Manual `document.body.innerHTML = ''` resets bypass React unmount hook lifecycles, polluting DOM tests. Standardizing JSDOM teardown guarantees clean React fiber tree unmounts.
+- **Verification**: `npm run test` executes 13 test files and 107 test cases with 100% success rate.
+
+### Verification Gates (PR #11)
+| Check | Status | Details |
+|-------|--------|---------|
+| `npx tsc --noEmit` | ✅ Exit 0 | Zero TypeScript compiler errors |
+| `npx eslint .` | ✅ Exit 0 | Zero ESLint issues |
+| `npm run build` | ✅ Exit 0 | Clean production build compiled successfully |
+| `npm run test` | ✅ Pass | 107 tests passed (0 failures) |
+
+### Phase C1-1 Lock Section
+| Property | Value |
+|----------|-------|
+| **Freeze Date** | 2026-07-02 |
+| **Merge SHA** | `ef720cd2e7236e1d6441c7ecde3509e5afbfc295` (PR #11) |
+| **Scope** | Hero section animation integration only (Typewriter + SpotlightBorder) |
+| **Boundaries Enforced** | Original white background and Cairo heading layout restored; MeshGradient background override completely removed; zero brand/UI modifications. |
+| **LOCK** | **Strict Lock**: No refactoring, styling adjustments, or background overrides allowed in the Hero section in future phases. Only wrapper integrations are permitted. |
